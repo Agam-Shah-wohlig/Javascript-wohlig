@@ -21,7 +21,27 @@ console.log(first); // 1
 console.log(second); // 2
 console.log(rest); // [3, 4]
 
+
+// Related Topic Destructuring Assignment!
+console.log("Desturcturing Assignment Examples:");
 const obj = { a: 1, b: 2, c: 3 };
-const { a, ...others } = obj;
+const { a, ...others} = obj;
 console.log(a); // 1
 console.log(others); // { b: 2, c: 3 }
+
+
+const person = {
+  name: "John",
+  age: 30,
+  country: "USA",
+  hobby: "coding"
+};
+
+// Destructure + Rest
+const { name, ...other} = person;
+
+console.log(name);   // "John"
+console.log(other); // { age: 30, country: "USA", hobby: "coding" }
+
+// Spread to copy
+const updatedPerson = { ...person, age: 31 };
