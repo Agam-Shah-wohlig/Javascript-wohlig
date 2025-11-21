@@ -38,3 +38,27 @@ function multiplyNumeric(obj) {
         }
     }
 }
+
+//Another Example!
+const carObj = {
+    model: "sedan",
+    color: "red",
+    year: "2020",
+
+    drive: function() {
+        console.log(`We are driving a ${sedan}`); //will give error because 'this' keyword is not used
+        // 'this.sedan' works!
+    },
+
+    brake:  function() {
+        console.log("We are slowing Down!")
+    }
+}
+
+console.log(carObj.model)
+console.log(carObj.color)
+
+carObj.drive(); 
+carObj.brake();
+
+
