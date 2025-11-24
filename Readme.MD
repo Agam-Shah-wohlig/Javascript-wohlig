@@ -1,1 +1,0 @@
-JavaScript Training - Wohlig
