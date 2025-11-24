@@ -28,8 +28,13 @@ const fs = require("fs")
 
 // fs.unlinkSync("./copy.txt"); // It will delete the file copy.txt
 
+//Append Something to file.
+// This can be used to append logs like what files was access by what user at what time!
+
+// fs.appendFileSync("./contacts.txt", `${Date.now()} Hey There\n`);
+
 // Check the details of a file.
 // const result = fs.statSync("./test.txt");
 // console.log(result)
 
-// fs.mkdirSync("mkdirfolder/a/b/", {recursive:true}); // This will create Directory/folder
+fs.mkdirSync("mkdirfolder/a/b/", {recursive:true}); // This will create Directory/folder
