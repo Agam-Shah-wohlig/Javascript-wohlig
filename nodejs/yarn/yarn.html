@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Yarn Tutorial Notes</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 30px;
+    line-height: 1.6;
+    background: #fafafa;
+  }
+  h1, h2, h3 {
+    color: #333;
+  }
+  code {
+    background: #eee;
+    padding: 3px 6px;
+    border-radius: 4px;
+  }
+  pre {
+    background: #eee;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+  }
+  .section {
+    margin-bottom: 40px;
+  }
+</style>
+</head>
+<body>
+
+<h1>✨ Yarn Tutorial Notes</h1>
+<p>A complete beginner-friendly reference on Yarn, how it works, and how to use it in real projects.</p>
+
+<hr>
+
+<div class="section">
+<h2>📌 1. What Is Yarn?</h2>
+<p>
+Yarn is a fast, reliable, and secure **package manager** created by Facebook.  
+It is an alternative to <b>npm</b> and uses the same <code>package.json</code>.
+</p>
+
+<ul>
+  <li>Faster installs (parallel + cached)</li>
+  <li>Deterministic installs via <code>yarn.lock</code></li>
+  <li>Secure checksum verification</li>
+  <li>Same syntax for dependencies as npm</li>
+</ul>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>📌 2. Installing Yarn</h2>
+
+<h3>Using Corepack (Recommended for Node 16+)</h3>
+<pre>corepack enable</pre>
+
+<h3>Install globally (older Node versions)</h3>
+<pre>npm install -g yarn</pre>
+
+<p>Verify installation:</p>
+<pre>yarn --version</pre>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>📌 3. Initialize a Project</h2>
+
+<h3>Create a new folder:</h3>
+<pre>
+mkdir myproject
+cd myproject
+</pre>
+
+<h3>Initialize:</h3>
+<pre>yarn init -y</pre>
+
+<p>This creates:</p>
+<ul>
+  <li><b>package.json</b> – project metadata</li>
+  <li><b>yarn.lock</b> – exact dependency versions</li>
+</ul>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>📌 4. Adding Dependencies</h2>
+
+<h3>Install a library:</h3>
+<pre>yarn add lodash</pre>
+
+<h3>Add a dev dependency:</h3>
+<pre>yarn add -D jest</pre>
+
+<h3>Add a specific version:</h3>
+<pre>yarn add react@18.2.0</pre>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>📌 5. Removing Dependencies</h2>
+<pre>yarn remove lodash</pre>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>📌 6. Installing All Dependencies</h2>
+
+<p>If you clone a repo, run:</p>
+<pre>yarn install</pre>
+
+<p>Reads <code>package.json</code> + <code>yarn.lock</code> and installs exactly the same versions.</p>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>📌 7. Running Scripts</h2>
+
+<p>In <code>package.json</code>:</p>
+<pre>
+"scripts": {
+  "start": "node index.js",
+  "dev": "nodemon server.js"
+}
+</pre>
+
+<p>Run with Yarn:</p>
+<pre>yarn start</pre>
+<pre>yarn dev</pre>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>📌 8. Global Packages</h2>
+
+<p>Install globally:</p>
+<pre>yarn global add nodemon</pre>
+
+<p>Remove:</p>
+<pre>yarn global remove nodemon</pre>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>📌 9. Upgrading Packages</h2>
+
+<h3>Upgrade a specific dependency:</h3>
+<pre>yarn upgrade lodash</pre>
+
+<h3>Upgrade to latest version:</h3>
+<pre>yarn upgrade lodash --latest</pre>
+
+<h3>Upgrade everything:</h3>
+<pre>yarn upgrade</pre>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>📌 10. Yarn vs NPM Quick Comparison</h2>
+<table border="1" cellpadding="8">
+<tr><th>NPM</th><th>Yarn</th></tr>
+<tr><td>npm install</td><td>yarn install</td></tr>
+<tr><td>npm install lodash</td><td>yarn add lodash</td></tr>
+<tr><td>npm uninstall</td><td>yarn remove</td></tr>
+<tr><td>npm run dev</td><td>yarn dev</td></tr>
+</table>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>📌 11. Yarn Lock File</h2>
+<p><code>yarn.lock</code> ensures identical installs across all environments:</p>
+<ul>
+  <li>CI pipelines</li>
+  <li>Team members’ machines</li>
+  <li>Production servers</li>
+</ul>
+
+<p>Never edit it manually.</p>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>📌 12. Workspaces (Advanced)</h2>
+<p>Yarn Workspaces allow you to manage multiple packages in one repo (monorepo).</p>
+
+<p>Example <code>package.json</code>:</p>
+
+<pre>
+{
+  "private": true,
+  "workspaces": [
+    "packages/api",
+    "packages/web"
+  ]
+}
+</pre>
+
+<p>Install all workspace deps:</p>
+<pre>yarn install</pre>
+</div>
+
+<hr>
+
+<h2>🎉 Done!</h2>
+<p>Your Yarn notes page is ready. You can add more sections anytime.</p>
+
+</body>
+</html>
