@@ -1,0 +1,34 @@
+/* Reset default styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body styling */
+body {
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Welcome Box */
+.welcome-box {
+    background: white;
+    padding: 40px 60px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.welcome-box h2 {
+    margin-bottom: 10px;
+}
+
+.welcome-box p {
+    font-size: 16px;
+    color: #555;
+}
