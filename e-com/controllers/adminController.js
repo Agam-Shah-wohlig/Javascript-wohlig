@@ -1,5 +1,5 @@
 
-function HandleDisplayDashboard(req, res) {
+function HandleDisplayAdminDashboard(req, res) {
     try {
         return res.render("admin-dashboard");
     } catch (err) {
@@ -9,6 +9,7 @@ function HandleDisplayDashboard(req, res) {
     }
 }
 
+
 module.exports = {
-    HandleDisplayDashboard
+    HandleDisplayAdminDashboard
 }

@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 //
-const {HandleDisplayDashboard} = require("../controllers/adminController")
+const {HandleDisplayAdminDashboard} = require("../controllers/adminController")
 
 // Display the HomePage to Guest user
 router.route("/")
-.get(HandleDisplayDashboard)
+.get(HandleDisplayAdminDashboard)
 
 module.exports = router;
 
