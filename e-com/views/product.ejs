@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listing</title>
+    <link rel="stylesheet" type="text/css" href="/css/productdetails.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="search-bar">
+            <form action="/products" method="get">
+                <input type="text" name="search" placeholder="Search products..." value="<%= typeof search !== 'undefined' ? search : '' %>">
+            </form>
+        </div>
+        <button class="btn-cart" onclick="window.location.href='/cart'">View Cart</button>
+    </header>
+
+    <h1>Product Listing</h1>
+
+    <div class="page-container">
+
+        <!-- Sidebar Filters -->
+<form action="/productdetails/filter" method="GET" class="sidebar">
+
+    <h3>Filters</h3>
+
+    <!-- Category Filter -->
+    <div>
+        <h4>Category</h4>
+        <label><input type="checkbox" name="category" value="Casual Shirts"> Casual Shirts</label>
+        <label><input type="checkbox" name="category" value="T-Shirts"> T-Shirts</label>
+        <label><input type="checkbox" name="category" value="Jeans"> Jeans</label>
+        <label><input type="checkbox" name="category" value="Formal Pants"> Formal Pants</label>
+    </div>
+
+    <!-- Brand Filter -->
+    <div>
+        <h4>Brand</h4>
+        <label><input type="checkbox" name="brand" value="Raymond"> Raymond</label>
+        <label><input type="checkbox" name="brand" value="Blackberrys"> Blackberrys</label>
+        <label><input type="checkbox" name="brand" value="Louis Philippe"> Louis Philippe</label>
+    </div>
+
+    <!-- Color Filter -->
+    <div>
+        <h4>Color</h4>
+        <label><input type="checkbox" name="color" value="Red"> Red</label>
+        <label><input type="checkbox" name="color" value="Blue"> Blue</label>
+        <label><input type="checkbox" name="color" value="Black"> Black</label>
+        <label><input type="checkbox" name="color" value="White"> White</label>
+        <label><input type="checkbox" name="color" value="Grey"> Grey</label>
+        <label><input type="checkbox" name="color" value="Green"> Green</label>
+        <label><input type="checkbox" name="color" value="Navy"> Navy</label>
+    </div>
+
+    <!-- Size Filter -->
+    <div>
+        <h4>Size</h4>
+        <label><input type="checkbox" name="size" value="S"> S</label>
+        <label><input type="checkbox" name="size" value="M"> M</label>
+        <label><input type="checkbox" name="size" value="L"> L</label>
+        <label><input type="checkbox" name="size" value="XL"> XL</label>
+        <label><input type="checkbox" name="size" value="XXL"> XXL</label>
+    </div>
+
+    <!-- Price Range Filter -->
+    <div>
+        <h4>Price Range</h4>
+        <label><input type="checkbox" name="price" value="0-500"> ₹0 - ₹500</label>
+        <label><input type="checkbox" name="price" value="500-1500"> ₹500 - ₹1500</label>
+        <label><input type="checkbox" name="price" value="1500-3000"> ₹1500 - ₹3000</label>
+        <label><input type="checkbox" name="price" value="3000-5000"> ₹3000 - ₹5000</label>
+    </div>
+
+    <!-- Sorting -->
+    <h3>Sort By</h3>
+    <label><input type="radio" name="sort" value="high"> Price High → Low</label>
+    <label><input type="radio" name="sort" value="low"> Price Low → High</label>
+
+    <button type="submit" class="btn" style="margin-top: 20px; width: 100%;">Apply Filters</button>
+
+</form>
+
+
+        <!-- Product Grid -->
+        <div class="product-container">
+            <% products.forEach(product => { %>
+                <div class="product-card">
+                    <img src="<%= product.image %>" alt="<%= product.title %>">
+                    <div class="product-title"><%= product.title %></div>
+                    <div class="price">₹<%= product.price %></div>
+                    <a href="#" class="btn">Add to Cart</a>
+                </div>
+            <% }) %>
+        </div>
+
+    </div>
+
+</body>
+</html>
