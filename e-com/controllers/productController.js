@@ -71,7 +71,7 @@ async function HandleFilterProducts(req, res) {
             const arr = Array.isArray(size) ? size : [size];
             filter["variants.attributes.size"] = { $in: arr };
         }
-
+    
         // PRICE RANGE
         if (price) {
             const arr = Array.isArray(price) ? price : [price];

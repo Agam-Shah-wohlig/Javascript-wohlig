@@ -1,24 +1,14 @@
+// routes/userRouter.js
 const express = require("express");
 const router = express.Router();
+const  authenticate  = require("../middlewares/authMiddleware");
+const { requireUser } = require("../middlewares/roleMiddleware");
+const { HandleDisplayUserDashboard } = require("../controllers/authController");
 
-//
-const {HandleDisplayLogin,
-    HandleDisplaySignup,
-    HandleLogin,
-    HandleSignup,
-    HandleDisplayUserDashboard} = require("../controllers/userController")
+// Apply middlewares to all routes in this router
+router.use(authenticate, requireUser);
 
-// Display the HomePage to Guest user
-router.route("/login")
-.get(HandleDisplayLogin)
-.post(HandleLogin)
-
-router.route("/signup")
-.get(HandleDisplaySignup)
-.post(HandleSignup)
-
-router.route("/user-dashboard")
-.get(HandleDisplayUserDashboard)
+// User dashboard
+router.get("/dashboard", HandleDisplayUserDashboard);
 
 module.exports = router;
-
