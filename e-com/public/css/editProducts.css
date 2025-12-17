@@ -1,0 +1,362 @@
+/* =========================
+   Base Layout
+========================= */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #222;
+}
+
+
+/* =========================
+   Sidebar
+========================= */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    padding-top: 20px;
+    background-color: #1f1f1f;
+    color: #fff;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    margin: 0 0 25px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.sidebar a {
+    display: block;
+    padding: 14px 20px;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #333;
+}
+
+.sidebar-section {
+    margin-bottom: 15px;
+}
+
+
+/* =========================
+   Collapsible Sidebar Items
+========================= */
+.collapsible {
+    position: relative;
+    cursor: pointer;
+}
+
+.collapsible::after {
+    content: '\25BC';
+    position: absolute;
+    right: 20px;
+    transition: transform 0.3s ease;
+}
+
+.collapsible.active::after {
+    transform: rotate(-180deg);
+}
+
+.sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.sidebar-buttons a {
+    padding: 12px 40px;
+    background-color: #1f1f1f;
+    border-left: 3px solid transparent;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.sidebar-buttons a:hover {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+
+/* =========================
+   Main Content Area
+========================= */
+.content {
+    margin-left: 250px;
+    padding: 25px;
+}
+
+
+/* =========================
+   Top Bar
+========================= */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.search-input {
+    min-width: 220px;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #222;
+}
+
+
+/* =========================
+   Content Buttons
+========================= */
+.content-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.content-buttons button {
+    padding: 10px 16px;
+    background-color: #222;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.content-buttons button:hover {
+    background-color: #444;
+}
+
+
+/* =========================
+   Tables
+========================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+table th,
+table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+table th {
+    background-color: #2b2b2b;
+    color: #fff;
+    font-weight: 600;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+table button {
+    padding: 6px 10px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+table button:hover {
+    background-color: #777;
+}
+
+/* =========================
+   Admin Form Container
+========================= */
+.form-container {
+    max-width: 820px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.08),
+        0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+/* =========================
+   Form Layout
+========================= */
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+
+/* =========================
+   Form Row (Each Field Block)
+========================= */
+.form-container .form-group {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 20px;
+    background-color: #f9fafb;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.form-container .form-group:focus-within {
+    background-color: #ffffff;
+    border-color: #222;
+    box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.1);
+}
+
+
+/* =========================
+   Labels (Admin Style)
+========================= */
+.form-container label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+
+/* =========================
+   Inputs & Selects (PRO)
+========================= */
+.form-container input,
+.form-container select {
+    width: 100%;
+    padding: 14px 14px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #111827;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.form-container input::placeholder {
+    color: #9ca3af;
+}
+
+.form-container input:focus,
+.form-container select:focus {
+    outline: none;
+    border-color: #222;
+    background-color: #ffffff;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.06),
+        0 0 0 3px rgba(34, 34, 34, 0.12);
+}
+
+
+/* =========================
+   Two-Column Admin Rows
+========================= */
+.form-container .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+
+/* =========================
+   Submit Button (Admin Primary)
+========================= */
+.form-container button {
+    align-self: flex-start;
+    margin-top: 10px;
+    padding: 14px 30px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background-color: #111827;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+    transition:
+        background-color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.form-container button:hover {
+    background-color: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
+}
+
+.form-container button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================
+   Product Dropdown (Admin)
+========================= */
+.product-select {
+    width: 100%;
+    padding: 14px 14px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #111827;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.product-select:focus {
+    outline: none;
+    border-color: #222;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.06),
+        0 0 0 3px rgba(34, 34, 34, 0.12);
+}
+
+.product-select option {
+    background-color: #ffffff;
+    color: #111827;
+}
+

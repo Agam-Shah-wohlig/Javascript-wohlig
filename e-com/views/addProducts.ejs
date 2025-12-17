@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Product</title>
+<link rel="stylesheet" type="text/css" href="/css/addProducts.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="/admin/dashboard">Dashboard</a>
+
+    <div class="sidebar-section">
+        <a href="#" class="collapsible">Manage Products</a>
+        <div class="sidebar-buttons">
+            <a href="/admin/products/manage/add">Add Product</a>
+            <a href="/admin/products/manage/edit">Edit Product</a>
+            <a href="/admin/products/manage/delete">Delete Product</a>
+        </div>
+        <a href="#" class="collapsible">Manage Variants</a>
+        <div class="sidebar-buttons">
+            <a href="/admin/products/manage/addvariant">Add Variant</a>
+            <a href="/admin/products/manage/deletevariant">Delete Variant</a>
+        </div>
+    </div>
+
+    <a href="/admin/orders">Orders</a>
+    <a href="/admin/users">Users</a>
+    <a href="/admin/settings">Settings</a>
+</div>
+
+<div class="content">
+
+    <% if (productId) { %>
+        <script>
+            alert("Product Added Successfully! ID: <%= productId %>");
+        </script>
+        <p>New Product ID: <%= productId %></p>
+    <% } %>
+
+    <div class="topbar"> 
+        <h2>Add New Product</h2>
+    </div>
+
+    <div class="form-container">
+        <!-- Product Form -->
+        <form id="productForm" action="/admin/products/manage/add" method="POST">
+
+            <select name="brandId" required>
+                <option value="" disabled selected>Select Brand</option>
+                <% brands.forEach(brand => { %>
+                    <option value="<%= brand._id %>"><%= brand.brandname %></option>
+                <% }) %>
+            </select>
+
+            <select name="categoryId" required>
+                <option value="" disabled selected>Select Category</option>
+                <% categories.forEach(cat => { %>
+                    <option value="<%= cat._id %>"><%= cat.categoryname %></option>
+                <% }) %>
+            </select>
+
+            <input type="text" name="description" placeholder="Product Description">
+
+            <!-- Product Images -->
+            <h4>Product Images</h4>
+            <div id="productImages">
+                <input type="text" name="images[]" placeholder="Image URL" required>
+            </div>
+            <button type="button" id="addImageBtn">Add Another Image</button>
+
+
+            <!-- Variant Section -->
+            <div id="variantSection">
+                <h4>Add Variant</h4>
+                    <input type="number" name="price" placeholder="Price" required>
+
+                    <input type="number" name="discountPrice" placeholder="Discount Price" required>
+
+                    <input type="number" name="stock" placeholder="Stock" required>
+
+                    <input type="text" name="image" placeholder="Variant Image URL">
+
+                    <select name="color" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <% colors.forEach(color => { %>
+                            <option value="<%= color %>"><%= color %></option>
+                       <% }) %>
+                    </select>
+
+                    <select name="size" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <% sizes.forEach(size => { %>
+                            <option value="<%= size %>"><%= size %></option>
+                       <% }) %>
+                    </select>
+
+                    <button type="submit">Add New Product</button>
+            </div>
+                </form>
+
+    </div>
+
+</div>
+
+<script src="/js/addProducts.js"></script>
+
+</body>
+</html>

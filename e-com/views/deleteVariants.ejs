@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delete Variant</title>
+<link rel="stylesheet" type="text/css" href="/css/deleteProducts.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="/admin/dashboard">Dashboard</a>
+
+    <div class="sidebar-section">
+        <a href="#" class="collapsible">Manage Products</a>
+        <div class="sidebar-buttons">
+            <a href="/admin/products/manage/add">Add Product</a>
+            <a href="/admin/products/manage/edit">Edit Product</a>
+            <a href="/admin/products/manage/delete">Delete Product</a>
+        </div>
+        <a href="#" class="collapsible">Manage Variants</a>
+        <div class="sidebar-buttons">
+            <a href="/admin/products/manage/addvariant">Add Variant</a>
+            <a href="/admin/products/manage/deletevariant" class="active">Delete Variant</a>
+        </div>
+    </div>
+
+    <a href="/admin/orders">Orders</a>
+    <a href="/admin/users">Users</a>
+    <a href="/admin/settings">Settings</a>
+</div>
+
+<div class="content">
+
+    <div class="topbar">
+        <h2>Delete Variant</h2>
+    </div>
+
+    <div class="form-container">
+        <form id="deleteVariantForm">
+
+            <!-- Product Selector -->
+            <label for="productSelect">Select Product:</label>
+            <select id="productSelect" class="product-select">
+                <option value="">-- Select Product --</option>
+                <% products.forEach(product => { %>
+                <option value="<%= product._id %>"><%= product.title %></option>
+                <% }) %>
+            </select>
+
+            <!-- Variant Selector -->
+            <div id="variantContainer" style="display:none; margin-top:10px;">
+                <label for="variantSelect">Select Variant:</label>
+                <select id="variantSelect" class="product-select"></select>
+            </div>
+
+            <!-- Hidden Variant ID -->
+            <input type="hidden" id="variantId">
+
+            <button type="submit" class="danger-btn">Delete Variant</button>
+        </form>
+    </div>
+
+</div>
+<!-- ===========================
+     Scripts
+=========================== -->
+<script src="/js/deleteVariants.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+/* =========================
+   Base Layout
+========================= */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #222;
+}
+
+/* =========================
+   Sidebar
+========================= */
+.sidebar {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    padding-top: 20px;
+    background-color: #1f1f1f;
+    color: #fff;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    margin: 0 0 25px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.sidebar a {
+    display: block;
+    padding: 14px 20px;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #333;
+}
+
+.sidebar-section {
+    margin-bottom: 15px;
+}
+
+/* =========================
+   Collapsible Sidebar
+========================= */
+.collapsible {
+    position: relative;
+    cursor: pointer;
+}
+
+.collapsible::after {
+    content: '\25BC';
+    position: absolute;
+    right: 20px;
+    transition: transform 0.3s ease;
+}
+
+.collapsible.active::after {
+    transform: rotate(-180deg);
+}
+
+.sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.sidebar-buttons a {
+    padding: 12px 40px;
+    background-color: #1f1f1f;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-buttons a:hover {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+/* =========================
+   Main Content
+========================= */
+.content {
+    margin-left: 250px;
+    padding: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================
+   Top Bar
+========================= */
+.topbar {
+    padding: 14px 22px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.topbar h2 {
+    margin: 0;
+    color: #b91c1c;
+}
+
+/* =========================
+   Form Container
+========================= */
+.form-container {
+    max-width: 650px;
+    margin: 40px auto;
+    padding: 40px;
+    overflow: visible; /* allow dropdown to escape */
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.product-select {
+    position: relative;
+    z-index: 10000; /* High enough to appear above sidebar */
+}
+
+/* =========================
+   Form Layout
+========================= */
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* =========================
+   Form Group
+========================= */
+.form-container .form-group {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: visible !important;
+    z-index: 1000;
+}
+
+.form-container .form-group:focus-within {
+    background-color: #ffffff;
+}
+
+/* =========================
+   Labels
+========================= */
+.form-container label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #991b1b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+/* =========================
+   Inputs & Select
+========================= */
+.form-container input,
+.form-container select {
+    padding: 14px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    color: #222;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-container select option {
+    color: #222; /* ensures option text is visible in dropdown */
+    background-color: #fff; /* ensures background is white */
+}
+
+
+.form-container input:focus,
+.form-container select:focus {
+    outline: none;
+    border-color: #dc2626;
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1);
+}
+
+/* =========================
+   OR Divider
+========================= */
+.or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #9b1c1c;
+    font-weight: 700;
+    margin: 10px 0;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #fca5a5;
+}
+
+.or-divider span {
+    padding: 0 14px;
+}
+
+/* =========================
+   Delete Button
+========================= */
+.danger-btn {
+    align-self: flex-start;
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #ffffff;
+    background-color: #dc2626;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(220, 38, 38, 0.25);
+    transition: background-color 0.2s, transform 0.15s, box-shadow 0.15s;
+}
+
+.danger-btn:hover {
+    background-color: #b91c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(220, 38, 38, 0.35);
+}
+
+.danger-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
+}

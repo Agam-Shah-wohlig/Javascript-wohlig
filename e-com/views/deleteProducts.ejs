@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delete Product</title>
+<link rel="stylesheet" type="text/css" href="/css/deleteProducts.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="/admin/dashboard">Dashboard</a>
+
+    <div class="sidebar-section">
+        <a href="#" class="collapsible">Manage Products</a>
+        <div class="sidebar-buttons">
+            <a href="/admin/products/manage/add">Add Product</a>
+            <a href="/admin/products/manage/edit">Edit Product</a>
+            <a href="/admin/products/manage/delete" class="active">Delete Product</a>
+        </div>
+        <a href="#" class="collapsible">Manage Variants</a>
+        <div class="sidebar-buttons">
+            <a href="/admin/products/manage/addvariant">Add Variant</a>
+            <a href="/admin/products/manage/deletevariant">Delete Variant</a>
+        </div>
+    </div>
+
+    <a href="/admin/orders">Orders</a>
+    <a href="/admin/users">Users</a>
+    <a href="/admin/settings">Settings</a>
+</div>
+
+<div class="content">
+
+    <div class="topbar">
+        <h2>Delete Product</h2>
+    </div>
+
+    <div class="form-container">
+        <form id="deleteForm" method="POST">
+
+          <!-- Select Product -->
+          <div class="form-group"> 
+            <label for="productSelect">Select Product:</label>
+            <select id="productSelect" class="product-select">
+                <option value="">-- Select Product --</option>
+                <% products.forEach(product => { %>
+                <option value="<%= product._id %>"><%= product.title %></option>
+                <% }) %>
+            </select>
+          </div>
+
+          <!-- OR Divider -->
+          <div class="or-divider">
+              <span>OR</span>
+          </div>
+
+          <!-- Manual Product ID -->
+          <div class="form-group">
+            <label for="productId">Enter Product ID</label>
+            <input type="text" id="productId" name="manualProductId" placeholder="Enter product ID">
+          </div>
+
+          <!-- Delete Button -->
+          <button type="submit" class="danger-btn">Delete Product</button>
+
+        </form>
+    </div>
+
+</div>
+
+<script>
+    // Collapsible sidebar
+    const collapsible = document.querySelectorAll('.collapsible');
+    collapsible.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('active');
+            const content = btn.nextElementSibling;
+            content.style.maxHeight = content.style.maxHeight
+                ? null
+                : content.scrollHeight + "px";
+        });
+    });
+</script>
+
+<script>
+  const productSelect = document.getElementById('productSelect');
+  const productIdInput = document.getElementById('productId'); // textbox that will be authoritative
+
+  // When dropdown changes, fill the textbox
+  productSelect.addEventListener('change', () => {
+    productIdInput.value = productSelect.value;
+  });
+
+  // Handle form submission
+  document.getElementById('deleteForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Take the value ONLY from the textbox
+    const productId = productIdInput.value.trim();
+
+    if (!productId) {
+      return alert("Please select a product or enter a product ID");
+    }
+
+    if (!confirm("Are you sure you want to delete this product?")) return;
+
+    try {
+      const res = await fetch(`/admin/products/manage/delete/${productId}`, {
+        method: 'DELETE'
+      });
+
+      if (res.ok) {
+        alert("Product deleted successfully");
+        location.reload();
+      } else {
+        const data = await res.json();
+        alert(data.message || "Error deleting product");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Server error. Could not delete product.");
+    }
+  });
+</script>
+
+
+</body>
+</html>

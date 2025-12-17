@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" type="text/css" href="/css/admin_dashboard.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="#">Dashboard</a>
+
+    <div class="sidebar-section">
+        <a href="#" class="collapsible">Manage Products</a>
+        <div class="sidebar-buttons">
+            <a href="/admin/products/manage/add">Add Product</a>
+            <a href="/admin/products/manage/edit">Edit Product</a>
+            <a href="/admin/products/manage/delete">Delete Product</a>
+        </div>
+        <a href="#" class="collapsible">Manage Variants</a>
+        <div class="sidebar-buttons">
+            <a href="/admin/products/manage/addvariant">Add Variant</a>
+            <a href="/admin/products/manage/deletevariant">Delete Variant</a>
+        </div>
+    </div>
+
+    <a href="#">Orders</a>
+    <a href="#">Users</a>
+    <a href="#">Settings</a>
+</div>
+
+<div class="content">
+
+    <div class="topbar">
+        <h2>Dashboard Overview</h2>
+        <input type="text" placeholder="Search..." class="search-input">
+    </div>
+
+    <div class="content-buttons">
+        <button onclick="location.href='/admin/products/manage/add'">Add Product</button>
+        <button onclick="location.href='/admin/products/manage/edit'">Edit Product</button>
+        <button onclick="location.href='/admin/products/manage/delete'">Delete Product</button>
+    </div>
+
+    <h3>Products List</h3>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Smartphone X</td>
+            <td>$499</td>
+            <td>120</td>
+            <td><button>Edit</button> <button>Delete</button></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Wireless Headphones</td>
+            <td>$79</td>
+            <td>50</td>
+            <td><button>Edit</button> <button>Delete</button></td>
+        </tr>
+    </table>
+
+</div>
+
+<script>
+    // Collapsible sidebar
+    const collapsible = document.querySelectorAll('.collapsible');
+    collapsible.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('active');
+            const content = btn.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

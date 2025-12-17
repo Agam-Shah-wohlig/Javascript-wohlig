@@ -102,3 +102,36 @@
 
 </body>
 </html>
+
+<!-- <table>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Category</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+            <% products.forEach(product => { %>
+            <tr>
+                <form action="/admin/products/manage/<%= product._id %>/update" method="POST" enctype="multipart/form-data">
+                    <td><input type="text" name="name" value="<%= product.name %>" /></td>
+                    <td><input type="number" name="price" value="<%= product.price %>" /></td>
+                    <td><input type="number" name="stock" value="<%= product.stock %>" /></td>
+                    <td><input type="text" name="category" value="<%= product.category %>" /></td>
+                    <td>
+                        <% if(product.image) { %>
+                            <img src="<%= product.image %>" width="50" /><br/>
+                        <% } %>
+                        <input type="file" name="image" />
+                    </td>
+                    <td>
+                        <button type="submit">Update</button>
+                </form>
+                <form action="/admin/products/manage/<%= product._id %>/delete" method="POST">
+                    <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+                    </td>
+            </tr>
+            <% }) %>
+        </table> -->

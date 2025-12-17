@@ -32,5 +32,7 @@ app.use("/", authRouter);           // public
 app.use("/user", userRouter);       // protected user routes
 app.use("/admin", adminRouter);     // protected admin routes
 app.use("/products", productRouter);// public or auth-protected products
+app.use("/admin/products/manage", adminRouter);
+
 
 app.listen(PORT, () => console.log(`Server Started at http://localhost:${PORT}`));

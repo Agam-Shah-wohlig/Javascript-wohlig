@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Variant</title>
+    <link rel="stylesheet" type="text/css" href="/css/addVariants.css">
+</head>
+<body>
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="/admin/dashboard">Dashboard</a>
+
+    <div class="sidebar-section">
+        <a href="#" class="collapsible">Manage Products</a>
+        <div class="sidebar-buttons">
+            <a href="/admin/products/manage/add">Add Product</a>
+            <a href="/admin/products/manage/edit">Edit Product</a>
+            <a href="/admin/products/manage/delete">Delete Product</a>
+        </div>
+        <a href="#" class="collapsible">Manage Variants</a>
+        <div class="sidebar-buttons">
+            <a href="/admin/products/manage/addvariant">Add Variant</a>
+            <a href="/admin/products/manage/deletevariant">Delete Variant</a>
+        </div>
+    </div>
+
+    <a href="/admin/orders">Orders</a>
+    <a href="/admin/users">Users</a>
+    <a href="/admin/settings">Settings</a>
+</div>
+
+<div class="content">
+    <% if (productId) { %>
+        <script>
+            alert("Product Added Successfully! ID: <%= productId %>");
+        </script>
+        <p>New Product ID: <%= productId %></p>
+        <p>New Variant ID: <%= variantId %></p>
+    <% } %>
+
+      <div class="topbar"> 
+        <h2>Add New Variant</h2>
+    </div>
+    <div class="form-container">
+
+    <form action="/admin/products/manage/addvariant" method="POST">
+        <!-- Product Selection -->
+        <label for="productSelect">Select Product:</label>
+        <select name="productId" id="productSelect" required>
+            <option value="" disabled selected>Select Product</option>
+            <% products.forEach(product => { %>
+                <option value="<%= product._id %>"><%= product.title %></option>
+            <% }) %>
+        </select>
+
+        <br><br>
+
+        <!-- Variant Inputs -->
+        <select name="color" required>
+            <option value="" disabled selected>Select Option</option>
+            <% colors.forEach(color => { %>
+                <option value="<%= color %>"><%= color %></option>
+            <% }) %>
+        </select>
+
+        <select name="size" required>
+            <option value="" disabled selected>Select Option</option>
+                <% sizes.forEach(size => { %>
+                    <option value="<%= size %>"><%= size %></option>
+                <% }) %>
+        </select>
+
+        <label for="price">Price:</label>
+        <input type="number" name="price" id="price" required>
+
+        <label for="discountPrice">Discount Price:</label>
+        <input type="number" name="discountPrice" id="discountPrice">
+
+        <label for="stock">Stock:</label>
+        <input type="number" name="stock" id="stock" required>
+
+        <label for="image">Variant Image URL:</label>
+        <input type="text" name="image" id="image">
+
+        <br><br>
+
+        <button type="submit">Add Variant</button>
+    </form>
+    </div>
+</div>
+
+<script>
+    // Collapsible sidebar
+document.querySelectorAll('.collapsible').forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        const content = btn.nextElementSibling;
+        content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
+    });
+});
+
+</script>
+</body>
+</html>
