@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/orderDetails.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <h1>Order Details</h1>
+
+<p><strong>Order ID:</strong> <%= order._id %></p>
+<p><strong>Status:</strong><%= order.status %></p>
+<p class="highlight">Total Amount:<strong> ₹ <%= (order.totalAmount || 0).toFixed(2) %></strong></p>
+<p class="highlight">Total Discount:<strong> ₹ <%= (order.totalDiscount || 0).toFixed(2) %></strong></p>
+
+<h3>Shipping Address</h3>
+<p class="highlight">
+    <%= order.shippingAddress.name %>, <%= order.shippingAddress.street %>, <br>
+    <%= order.shippingAddress.city %>, <%= order.shippingAddress.state %> - <%= order.shippingAddress.zip %>, <br>
+    <%= order.shippingAddress.country %>
+</p>
+
+<h3>Items</h3>
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Product</th>
+        <th>Variant</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Discounted Price</th>
+        <th>Final Price</th>
+    </tr>
+    <% order.items.forEach(item => { %>
+        <tr>
+            <td><%= item.titleSnapshot || "Product Name" %></td>
+            <td>
+                <% if (item.variantSnapshot) { %>
+                    <% for (const [key, val] of Object.entries(item.variantSnapshot)) { %>
+                        <%= key %>: <%= val %><br>
+                    <% } %>
+                <% } else { %>
+                    N/A
+                <% } %>
+            </td>
+            <td><%= item.quantity %></td>
+            <td>₹<%= (item.price || 0).toFixed(2) %></td>
+            <td>₹<%= (item.discountPrice || 0).toFixed(2) %></td>
+            <td>₹<%= (item.finalPrice || item.discountPrice || item.price || 0).toFixed(2) %></td>
+        </tr>
+    <% }) %>
+</table>
+
+</body>
+</html>

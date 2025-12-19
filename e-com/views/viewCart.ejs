@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Cart</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="/css/viewCart.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+
+<h1>My Cart</h1>
+
+<div class="cart-container">
+    <% if (!cart || cart.items.length === 0) { %>
+    <div class="empty-cart">
+        <p>Your cart is currently empty.</p>
+        <a href="/productdetails" class="buy-btn">Continue Shopping</a>
+    </div>
+    <% } else { %>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Variant</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% cart.items.forEach(item => { %>
+                    <tr data-item-id="<%= item._id %>">
+                        <td>
+                            <%= item.titleSnapshot %><br>
+                            <small>SKU: <%= item.sku %></small>
+                        </td>
+                        <td>
+                            <% for(const [key, val] of Object.entries(item.variantSnapshot)) { %>
+                                <%= key %>: <%= val %><br>
+                            <% } %>
+                            <% if (item.quantity > item.stock) { %>
+                                <span style="color:red;font-weight:bold;">Out of Stock</span>
+                            <% } %>
+                        </td>
+                        <td>₹<%= item.finalPrice.toFixed(2) %></td>
+                        <td>
+                            <input type="number" class="quantity-input" 
+                                value="<%= item.quantity %>" min="1"
+                                <% if (item.quantity > item.stock) { %> disabled <% } %> >
+                            <button class="update-btn" 
+                                <% if (item.quantity > item.stock) { %> disabled <% } %> >
+                                Update
+                            </button>
+                        </td>
+                        <td>₹<%= (item.finalPrice * item.quantity).toFixed(2) %></td>
+                        <td><button class="remove-btn">Remove</button></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" style="text-align:right"><strong>Total:</strong></td>
+                    <td colspan="2">₹<%= cart.totalPrice.toFixed(2) %></td>
+                </tr>
+            </tfoot>
+        </table>
+    <% } %>
+    <% if (cart && cart.items.length > 0) { %>
+    <div style="margin-top:20px;">
+        <button id="placeOrderBtn">Checkout</button>
+    </div>
+    <% } %>
+
+</div>
+
+<script>
+    // Update quantity
+    document.querySelectorAll('.update-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const tr = btn.closest('tr');
+            const itemId = tr.dataset.itemId;
+            const qty = parseInt(tr.querySelector('.quantity-input').value);
+
+            const res = await fetch('/cart/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ itemId, quantity: qty })
+            });
+
+            const data = await res.json();
+            if (res.ok) location.reload();
+            else alert(data.error || 'Failed to update');
+        });
+    });
+
+    // Remove item
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const tr = btn.closest('tr');
+            const itemId = tr.dataset.itemId;
+
+            const res = await fetch('/cart/remove', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ itemId })
+            });
+
+            const data = await res.json();
+            if (res.ok) location.reload();
+            else alert(data.error || 'Failed to remove item');
+        });
+    });
+</script>
+
+<script>
+document.getElementById("placeOrderBtn")?.addEventListener("click", async () => {
+    // For now, we use a TEMP shipping address and payment method
+    const formData = {
+        shippingAddressId: "6943f35f6bac0d897405322c", // replace with real address from user
+        paymentMethod: "cod" // can be dynamic later
+    };
+
+    const res = await fetch("/order/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+        alert("Order placed successfully!");
+        window.location.href = "/order/view"; // redirect to order list
+    } else {
+        alert(data.error || "Failed to place order");
+    }
+});
+</script>
+
+
+</body>
+</html>

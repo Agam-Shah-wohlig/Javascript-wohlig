@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order List</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/ordersList.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <h1>My Orders</h1>
+
+<% if (!orders || orders.length === 0) { %>
+    <p>You have no orders yet.</p>
+<% } else { %>
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        <% orders.forEach(order => { %>
+            <tr>
+                <td><%= order._id %></td>
+                <td><%= new Date(order.createdAt).toLocaleString() %></td>
+                <td>₹<%= order.totalAmount.toFixed(2) %></td>
+                <td><%= order.status %></td>
+                <td><a href="/order/details/<%= order._id %>">View Details</a></td>
+            </tr>
+        <% }) %>
+    </table>
+<% } %>
+
+</body>
+</html>

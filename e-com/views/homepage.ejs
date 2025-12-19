@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxury Fabric House</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<link rel="stylesheet" type="text/css" href="/css/homepage.css">
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+
+
+<!-- Navbar -->
+
+<!-- Brand Banners -->
+<div class="brand-banners">
+    <% brands.forEach(brand => { %>
+        <div class="brand-banner <%= brand.slug %>" 
+             onclick="window.location.href='/productdetails?brand=<%= brand._id %>'"
+             style="background-image: url('<%= brand.coverImage %>');">
+            <div class="overlay">
+                <h2><%= brand.name %></h2>
+            </div>
+        </div>
+    <% }) %>
+</div>
+
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <p>&copy; <%= new Date().getFullYear() %> ShopKart. All rights reserved.</p>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/terms">Terms</a>
+        </nav>
+    </div>
+</footer>
+
+</body>
+</html>

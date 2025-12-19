@@ -1,77 +1,140 @@
-* {
+:root {
+    --accent: #6b4f3f;    /* Mocha showstopper */
+    --bg: #faf9f7;        /* Warm off-white */
+    --text: #1c1c1c;      
+    --muted: #777;
+    --border: #e6e1dc;    
+}
+
+/* Global */
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
 }
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: #eef2f3;
-}
 
+/* signup.css */
+
+/* Container */
 .container {
-    width: 400px;
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 40px 30px;
     background: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    overflow: hidden;
-    transition: 0.4s;
+    border: 1px solid var(--border);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-h2 {
+/* Form Heading */
+.container h2 {
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    color: var(--text);
+    font-size: 24px;
     text-align: center;
-    margin-bottom: 20px;
 }
 
+/* Input Box */
 .input-box {
-    position: relative; 
-    margin-bottom: 15px;
+    width: 100%;
+    position: relative;
+    margin-bottom: 25px;
+    box-sizing: border-box;
 }
 
+/* Input Field */
 .input-box input {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    background: #4b7bec;
-    color: #fff;
+    padding: 12px 15px;
+    border: 1.2px solid #f5f4f2; /* subtle border */
+    border-radius: 2px; /* very slight rounding */
+    background: #fff;
     font-size: 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
+    color: var(--text);
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
 }
 
-button:hover {
-    background: #3867d6;
+.input-box input:focus {
+    border-color: var(--accent); /* subtle accent on focus */
 }
 
-.toggle {
-    text-align: center;
-    margin-top: 15px;
-}
 
-.toggle a {
-    color: #3867d6;
-    cursor: pointer;
-}
-
+/* Toggle Password Icon */
 .toggle-password {
     position: absolute;
-    right: 12px;
+    right: 15px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
     font-size: 16px;
+    color: var(--muted);
+    user-select: none;
+}
+
+.toggle-password:hover {
+    color: var(--accent);
+}
+
+/* Error Messages */
+.error-message {
+    display: block;
+    font-size: 13px;
+    color: red;
+    margin-top: 5px;
+}
+
+/* Submit Button */
+#signupBtn {
+    width: 100%;
+    padding: 14px 0;
+    background: var(--accent);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+#signupBtn:hover {
+    background: #4e3a2f; /* darker mocha tone for hover */
+}
+
+/* Toggle Link */
+.toggle {
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+}
+
+.toggle a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.toggle a:hover {
+    color: #4e3a2f;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        margin: 40px 20px;
+        padding: 30px 20px;
+    }
 }
 

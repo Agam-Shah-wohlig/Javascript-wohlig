@@ -1,0 +1,215 @@
+/* ======================
+   Brand Variables
+====================== */
+:root {
+    --accent: #6b4f3f;      /* SHOWSTOPPER */
+    --text: #1c1c1c;
+    --muted: #777;
+    --border: #e6e1dc;
+    --bg: #faf9f7;
+}
+
+/* ======================
+   Global
+====================== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 60px 24px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+}
+
+/* ======================
+   Page Title
+====================== */
+h1 {
+    text-align: center;
+    font-size: 34px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 70px;
+    color: var(--text);
+}
+
+/* ======================
+   Cart Container
+====================== */
+.cart-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ======================
+   Empty Cart
+====================== */
+.empty-cart {
+    text-align: center;
+    margin-top: 120px;
+}
+
+.empty-cart p {
+    font-size: 17px;
+    color: var(--muted);
+    margin-bottom: 40px;
+}
+
+/* ======================
+   Cart Table
+====================== */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.cart-table thead th {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    padding: 18px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+}
+
+.cart-table tbody td {
+    padding: 26px 10px;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+    vertical-align: top;
+}
+
+.cart-table small {
+    color: var(--muted);
+}
+
+/* ======================
+   Variant / Stock
+====================== */
+.stock-warning {
+    color: #9b2c2c;
+    font-weight: 500;
+}
+
+/* ======================
+   Quantity Controls
+====================== */
+.quantity-input {
+    width: 60px;
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    background: transparent;
+}
+
+.update-btn,
+.remove-btn {
+    background: none;
+    border: none;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-left: 8px;
+    color: var(--accent);
+}
+
+.remove-btn {
+    color: var(--muted);
+}
+
+.remove-btn:hover {
+    color: var(--text);
+}
+
+/* ======================
+   Total Row
+====================== */
+tfoot td {
+    padding-top: 40px;
+    font-size: 18px;
+}
+
+tfoot strong {
+    letter-spacing: 1px;
+}
+
+/* ======================
+   Primary CTA (Checkout)
+====================== */
+#placeOrderBtn {
+    margin-top: 50px;
+    padding: 20px 60px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#placeOrderBtn:hover {
+    background: #5a3f31;
+}
+
+#placeOrderBtn:active {
+    transform: scale(0.97);
+}
+
+/* ======================
+   Secondary CTA
+====================== */
+.buy-btn {
+    display: inline-block;
+    padding: 16px 44px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+
+    color: var(--accent);
+    background: transparent;
+    border: 1px solid var(--accent);
+
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.buy-btn:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* ======================
+   Responsive
+====================== */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 26px;
+        margin-bottom: 40px;
+    }
+
+    .cart-table thead {
+        display: none;
+    }
+
+    .cart-table tr {
+        display: block;
+        margin-bottom: 30px;
+    }
+
+    .cart-table td {
+        display: block;
+        padding: 10px 0;
+    }
+}

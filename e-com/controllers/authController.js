@@ -141,20 +141,10 @@ async function HandleSignup(req, res) {
     }
 }
 
-function HandleDisplayUserDashboard(req, res) {
-    try {
-        return res.render("user-dashboard", { message: null});
-    } catch (err) {
-        return res.status(500).json({ message: "Server Not Responding" });
-    }
-}
-
-
 module.exports = {
     HandleDisplayLogin,
     HandleDisplaySignup,
     HandleJwtLogin,
     HandleSignup,
-    HandleDisplayUserDashboard,
     refresh
 }

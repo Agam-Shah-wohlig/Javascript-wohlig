@@ -3,99 +3,101 @@ const Brand = require("../models/brand");
 const Category = require("../models/category");
 
 async function HandleDisplayProducts(req, res) {
-    
     try {
+        // Fetch products from DB
         const products = await Product.find().lean();
         
-
-        // Format products for frontend
+        // No need to strip variants — just send all variants
         const formatted = products.map(p => {
-            const firstVariant = p.variants?.[0] || {};
+            const productImage = (p.images && p.images[0]) || "/images/default-product.png";
             return {
-                id: p._id,
+                _id: p._id,
                 title: p.title,
+                images: p.images[0]|| productImage,
                 description: p.description,
                 category: p.category,
                 brand: p.brand,
-                price: firstVariant.discountPrice || firstVariant.price || 0,
-                image:
-                    (p.images && p.images[0]) ||
-                    firstVariant.image ||
-                    "/images/default-product.png" // fallback
+                variants: p.variants.map(v => ({
+                    _id: v._id,
+                    price: v.discountPrice || v.price || 0,
+                    image: v.image || productImage,
+                    attributes: v.attributes
+                }))
             };
         });
-        res.render("product", { products: formatted });
-
+        // Send to EJS
+        res.render("productDetails", { products: formatted });
     } catch (err) {
         console.log(err);
         res.status(500).send("Error loading products");
     }
 }
 
+
 async function HandleFilterProducts(req, res) {
     try {
-        const { category, brand, color, size, price } = req.query;
-        let filter = {};
+        const { category, brand, color, size, price, sort } = req.query;
+        const filter = {};
 
-
-    // CATEGORY
-    if (category) {
-        const arr = Array.isArray(category) ? category : [category];
-        
-        const categories = await Category.find({ categoryname: { $in: arr } }).select("_id");
-        const categoryIds = categories.map(c => c._id);
-        filter.category = { $in: categoryIds };
-    }
-
-    // BRAND
-    if (brand) {
-        const arr = Array.isArray(brand) ? brand : [brand];
-
-        const brands = await Brand.find({
-            brandname: { $in: arr }
-        }).select("_id");
-
-        const brandIds = brands.map(b => b._id);
-
-        filter.brand = { $in: brandIds };
-    }
-
-        // COLOR
-        if (color) {
-            const arr = Array.isArray(color) ? color : [color];
-            filter["variants.attributes.color"] = { $in: arr };
+        // --- Build filter object (same as before) ---
+        if (category) {
+            const categories = await Category.find({ categoryname: { $in: [].concat(category) } }).select("_id");
+            filter.category = { $in: categories.map(c => c._id) };
         }
 
-        // SIZE
-        if (size) {
-            const arr = Array.isArray(size) ? size : [size];
-            filter["variants.attributes.size"] = { $in: arr };
+        if (brand) {
+            const brands = await Brand.find({ brandname: { $in: [].concat(brand) } }).select("_id");
+            filter.brand = { $in: brands.map(b => b._id) };
         }
-    
-        // PRICE RANGE
+
+        const variantFilters = [];
+        if (color) variantFilters.push({ "attributes.color": { $in: [].concat(color) } });
+        if (size) variantFilters.push({ "attributes.size": { $in: [].concat(size) } });
+
         if (price) {
-            const arr = Array.isArray(price) ? price : [price];
-            filter.$or = arr.map(r => {
+            const priceRanges = [].concat(price).map(r => {
                 const [min, max] = r.split("-").map(Number);
-                return {
-                    "variants.discountPrice": { $gte: min, $lte: max }
-                };
+                return { min, max };
+            });
+            variantFilters.push({
+                $or: priceRanges.map(range => ({
+                    $or: [
+                        { discountPrice: { $gte: range.min, $lte: range.max } },
+                        { price: { $gte: range.min, $lte: range.max } }
+                    ]
+                }))
             });
         }
-        // console.log("This is filter",filter);
-        // console.log("This is filter",JSON.stringify(filter, null, 2));
 
+        if (variantFilters.length > 0) {
+            filter.variants = { $elemMatch: { $and: variantFilters } };
+        }
 
-        const products = await Product.find(filter).lean();
+        // --- Fetch filtered products ---
+        let products = await Product.find(filter).lean();
 
-        // console.log("These are selected",products);
-
-        const formatted = products.map(p => {
+        // --- Filter variants inside each product ---
+        products = products.map(p => {
             const productImage = (p.images && p.images[0]) || "/images/default-product.png";
+            const filteredVariants = p.variants.filter(v => {
+                if (color && ![].concat(color).includes(v.attributes.color)) return false;
+                if (size && ![].concat(size).includes(v.attributes.size)) return false;
+                if (price) {
+                    const variantPrice = v.discountPrice || v.price || 0;
+                    return [].concat(price).some(r => {
+                        const [min, max] = r.split("-").map(Number);
+                        return variantPrice >= min && variantPrice <= max;
+                    });
+                }
+                return true;
+            });
+
             return {
-                id: p._id,
+                _id: p._id,
                 title: p.title,
-                variants: p.variants.map(v => ({
+                images: p.images[0] || productImage,
+                variants: filteredVariants.map(v => ({
+                    _id: v._id,
                     price: v.discountPrice || v.price || 0,
                     image: v.image || productImage,
                     attributes: v.attributes
@@ -103,7 +105,10 @@ async function HandleFilterProducts(req, res) {
             };
         });
 
-        res.render("product", { products: formatted });
+        // --- Call the reusable sort function if sort option exists ---
+        const finalProducts = sortProducts(products, sort);
+
+        res.render("productDetails", { products: finalProducts });
 
     } catch (err) {
         console.error(err);
@@ -112,46 +117,20 @@ async function HandleFilterProducts(req, res) {
 }
 
 
-async function HandleSortProducts(req, res) {
-    try {
-        const { sort } = req.query;
+function sortProducts(products, sort) {
+    if (!sort) return products; // no sorting needed
 
-        let products = await Product.find().lean();
-
-        // Sort on backend (fast enough)
-        products.sort((a, b) => {
-            const pa = a.variants?.[0]?.discountPrice || 0;
-            const pb = b.variants?.[0]?.discountPrice || 0;
-
-            if (sort === "high") return pb - pa; // high → low
-            if (sort === "low") return pa - pb;  // low → high
-            return 0;
-        });
-
-        const formatted = products.map(p => {
-        const productImage = (p.images && p.images[0]) || "/images/default-product.png";
-
-        return {
-            id: p._id,
-            title: p.title,
-            variants: p.variants.map(v => ({
-                price: v.discountPrice || v.price || 0,
-                image: v.image || productImage,
-                attributes: v.attributes
-            }))
+    return products.sort((a, b) => {
+        const getPrice = (p) => {
+            const prices = p.variants?.map(v => v.discountPrice || v.price || 0) || [0];
+            return sort === "high" ? Math.max(...prices) : Math.min(...prices);
         };
-    });
-    
-    res.render("product", { products: formatted });
 
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Error sorting products" });
-    }
+        return sort === "high" ? getPrice(b) - getPrice(a) : getPrice(a) - getPrice(b);
+    });
 }
 
 module.exports = {
     HandleDisplayProducts,
-    HandleFilterProducts,
-    HandleSortProducts
+    HandleFilterProducts
 };

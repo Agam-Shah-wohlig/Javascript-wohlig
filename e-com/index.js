@@ -6,6 +6,8 @@ const authRouter = require("./routes/authRoutes");
 const userRouter = require("./routes/userRoutes");
 const adminRouter = require("./routes/adminRoutes");
 const productRouter = require("./routes/productRoutes");
+const cartRouter = require("./routes/cartRoutes");
+const orderRouter = require("./routes/orderRoutes");
 
 const app = express();
 const PORT = 8000;
@@ -21,6 +23,9 @@ app.use(express.static("public"));
 
 app.use(cookieParser());
 
+// const insertAddress = require("./utils/addDocument");
+
+// insertAddress();
 
 // Connect to MongoDB
 connectMongoDB("mongodb://localhost:27017/e-com")
@@ -31,8 +36,10 @@ connectMongoDB("mongodb://localhost:27017/e-com")
 app.use("/", authRouter);           // public
 app.use("/user", userRouter);       // protected user routes
 app.use("/admin", adminRouter);     // protected admin routes
-app.use("/products", productRouter);// public or auth-protected products
+app.use("/", productRouter);// public or auth-protected products
 app.use("/admin/products/manage", adminRouter);
+app.use("/cart", cartRouter);
+app.use("/order", orderRouter);
 
 
-app.listen(PORT, () => console.log(`Server Started at http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server Started at http://localhost:${PORT}/user/homepage`));

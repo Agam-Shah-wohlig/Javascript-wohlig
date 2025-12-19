@@ -1,0 +1,52 @@
+:root {
+    --accent: #6b4f3f;    /* Mocha showstopper */
+    --bg: #faf9f7;        /* Warm off-white */
+    --text: #1c1c1c;      
+    --muted: #777;
+    --border: #e6e1dc;    
+}
+
+/* Global */
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    border-bottom: 1px solid var(--border);
+    max-width: 1200px;
+    margin: 0 auto 60px auto;
+    background-color: var(--bg); /* luxury calm */
+}
+
+.navbar h2 {
+    color: var(--accent);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.navbar nav a {
+    color: var(--text);
+    margin-left: 30px;
+    text-decoration: none;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.2s ease;
+}
+
+.navbar nav a:hover {
+    color: var(--accent);
+}

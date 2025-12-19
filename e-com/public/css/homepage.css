@@ -1,0 +1,171 @@
+:root {
+    --accent: #6b4f3f;    /* Mocha showstopper */
+    --bg: #faf9f7;        /* Warm off-white */
+    --text: #1c1c1c;      
+    --muted: #777;
+    --border: #e6e1dc;    
+}
+
+/* Global */
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    border-bottom: 1px solid var(--border);
+    max-width: 1200px;
+    margin: 0 auto 60px auto;
+    background-color: var(--bg); /* luxury calm */
+}
+
+.navbar h2 {
+    color: var(--accent);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.navbar nav a {
+    color: var(--text);
+    margin-left: 30px;
+    text-decoration: none;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.2s ease;
+}
+
+.navbar nav a:hover {
+    color: var(--accent);
+}
+
+/* Brand Banners */
+.brand-banners {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto 100px auto;
+}
+
+.brand-banner {
+    position: relative;
+    height: 220px;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    /* border: 1px solid var(--border); */
+}
+
+.brand-banner:hover {
+    transform: scale(1.01);
+}
+
+/* Overlay for subtle editorial look */
+.brand-banner .overlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(250, 249, 247, 0.5);
+}
+
+.brand-banner h2 {
+    font-size: 36px;
+    font-weight: 500; /* heavier weight */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--accent);
+    margin: 0;
+    text-shadow: 2px 1px 2px rgba(28, 28, 28, 0.2); /* subtle shadow for depth */
+}
+
+/* Brand-specific hover overlays */
+.brand-banner.raymond:hover .overlay {
+    background: linear-gradient(135deg, rgba(255,0,0,0.4), rgba(255,255,255,0.4));
+}
+
+.brand-banner.blackberrys:hover .overlay {
+    background: linear-gradient(135deg, rgba(101,67,33,0.5), rgba(245,245,220,0.4), rgba(255,165,0,0.3));
+}
+
+.brand-banner.louisphilippe:hover .overlay {
+    background: linear-gradient(135deg, rgba(4,14,78,0.6), rgba(164,0,25,0.4));
+}
+
+/* Footer */
+
+footer {
+    background: var(--accent);       /* Mocha showstopper */
+    color: var(--bg);                /* Light text for contrast */
+    border-top: 1px solid var(--border);
+    margin: 0;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+footer .footer-content h3 {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    color: var(--bg);                /* Make heading readable on dark background */
+}
+
+footer .footer-content nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: var(--bg);                /* Links in light color on accent bg */
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+}
+
+footer .footer-content nav a:hover {
+    color: var(--text);              /* Darker accent on hover */
+}
+
+footer .footer-bottom {
+    margin-top: 30px;
+    font-size: 14px;
+    color: var(--bg);                /* Keep muted info readable */
+}
+
+
+/* Responsive */
+@media (max-width: 900px) {
+    .navbar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .brand-banner {
+        height: 140px;
+    }
+
+    .brand-banner h2 {
+        font-size: 28px;
+    }
+}
+
+
+

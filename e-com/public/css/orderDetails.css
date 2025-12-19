@@ -1,0 +1,111 @@
+/* ======================
+   Brand Variables
+====================== */
+:root {
+    --accent: #6b4f3f;        /* Mocha - Primary Accent */
+    --accent-soft: #ede6e1;   /* Fabric Beige - Subtle Accent */
+    --panel: #f3efec;         /* Warm Panel */
+    --bg: #faf9f7;            /* Page Background */
+    --text: #1c1c1c;          /* Primary Text */
+    --muted: #777777;         /* Secondary Text */
+    --border: #e6e1dc;        /* Divider */
+    --highlight-1: #f0e9e2;   /* Slightly darker panel for shipping address */
+    --highlight-2: #f7f4f1;   /* Lighter panel for order details/table */
+}
+
+/* ======================
+   Global Styles
+====================== */
+body {
+    margin: 0;
+    padding: 50px 24px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+}
+
+h1, h3 {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
+    margin-bottom: 16px;
+    color: var(--text);
+}
+
+h1 {
+    font-size: 28px;
+    margin-top: 0;
+}
+
+h3 {
+    font-size: 18px;
+    margin-top: 40px;
+}
+
+/* Paragraphs */
+p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+.highlight {
+    display: inline-block;       /* Wrap only the text */
+    background: var(--highlight-1);
+    padding: 8px 16px;           /* Space around the text */
+    border-left: 4px solid var(--accent);
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+
+/* ======================
+   Shipping Address Highlight
+====================== */
+h3 + p {
+    background: var(--highlight-1); /* Highlight shipping address */
+    padding: 16px 20px;
+    border-left: 4px solid var(--accent);
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* ======================
+   Order Details Table
+====================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+th, td {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+}
+
+th {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
+}
+
+td {
+    font-weight: 400;
+    color: var(--muted);
+}
+
+/* Final Price Column */
+td:last-child {
+    color: var(--text);
+    font-weight: 500;
+}
+
+/* Table Row Alternating (subtle luxury effect)
+table tr:nth-child(even) td {
+    background: var(--panel);
+} */

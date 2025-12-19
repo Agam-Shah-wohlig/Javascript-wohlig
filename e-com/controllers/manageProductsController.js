@@ -3,6 +3,8 @@ const Category = require("../models/category");
 const Brand = require("../models/brand");
 const mongoose = require("mongoose");
 
+const getNextProductNumber = require("../utils/generateProductTitleNo"); // utility function
+
 async function HandleRenderAddProductPage(req, res) {
     
     try {
@@ -59,10 +61,16 @@ async function HandleAdminAddProducts(req, res) {
             return res.status(400).json({ message: "Invalid Brand or Category" });
         }
 
+        // Fetch existing products for this brand + category, latest first
+            const existingProducts = await Product.find({
+                brand: brandDoc._id,
+                category: categoryDoc._id
+            }).sort({ createdAt: -1 }).limit(1);
+
         // Generate title and sku
-        const count = await Product.countDocuments();
-        const title = `${brandDoc.brandname} ${categoryDoc.categoryname} ${count + 1}`;
-        const skuName = `${brandDoc.brandname.toUpperCase()}-${categoryDoc.categoryname.toUpperCase().replace(/\s+/g, '')}-${count + 1}-V1`;
+        const nextNumber = getNextProductNumber(existingProducts);
+        const title = `${brandDoc.brandname} ${categoryDoc.categoryname} ${nextNumber}`;
+        const skuName = `${brandDoc.brandname.toUpperCase()}-${categoryDoc.categoryname.toUpperCase().replace(/\s+/g, '')}-${nextNumber}-V1`;
 
         // Create product
         const newProduct = await Product.create({

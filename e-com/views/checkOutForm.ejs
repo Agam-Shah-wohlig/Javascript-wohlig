@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/productDetails.css">
+    <title>Checkout</title>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <form id="checkoutForm">
+    <label>Shipping Address:</label>
+    <select name="shippingAddress" required>
+        <% addresses.forEach(addr => { %>
+            <option value="<%= addr._id %>"><%= addr.fullAddress %></option>
+        <% }) %>
+    </select>
+
+    <label>Payment Method:</label>
+    <select name="paymentMethod" required>
+        <option value="cod">Cash on Delivery</option>
+        <option value="card">Card</option>
+        <option value="upi">UPI</option>
+        <option value="wallet">Wallet</option>
+    </select>
+
+    <button type="submit">Place Order</button>
+</form>
+
+<script>
+document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    const response = await fetch('/order/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            shippingAddress: form.shippingAddress.value,
+            paymentMethod: form.paymentMethod.value
+        })
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+        alert('Order placed successfully!');
+        window.location.href = '/orders/view'; // redirect to orders page
+    } else {
+        alert(data.error || 'Failed to place order');
+    }
+});
+</script>
+
+</body>
+</html>
