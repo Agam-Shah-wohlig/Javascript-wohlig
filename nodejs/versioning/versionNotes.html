@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Versioning Notes</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 40px;
+        background: #f8f9fa;
+    }
+    h1, h2, h3 {
+        color: #333;
+    }
+    .section {
+        background: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    code {
+        background: #eee;
+        padding: 3px 6px;
+        border-radius: 4px;
+    }
+    ul {
+        margin-left: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Versioning Notes (Summary)</h1>
+
+<div class="section">
+    <h2>1. Version Structure (Semantic Versioning)</h2>
+    <p>A version is written as <b>MAJOR.MINOR.PATCH</b>, e.g., <b>4.18.2</b>.</p>
+    <ul>
+        <li><b>PATCH (2)</b> – Minor bug fixes, optional, safe to update.</li>
+        <li><b>MINOR (18)</b> – Recommended updates, security fixes, new features.</li>
+        <li><b>MAJOR (4)</b> – Breaking changes, may break existing code. Update carefully.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>2. Meaning of Updates</h2>
+    <ul>
+        <li><b>Patch:</b> Very small, safe fixes.</li>
+        <li><b>Minor:</b> Recommended, includes improvements & security fixes.</li>
+        <li><b>Major:</b> Big changes, may break project (e.g., Express 4 → 5).</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>3. Installing Packages</h2>
+    <ul>
+        <li>Latest version: <code>npm install express</code></li>
+        <li>Specific version: <code>npm install express@4.17.2</code></li>
+        <li>Specific major version: <code>npm install express@4</code></li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>4. Version Symbols</h2>
+    <h3>^ Caret</h3>
+    <p><code>"express": "^4.18.2"</code></p>
+    <ul>
+        <li>Locks MAJOR version (4)</li>
+        <li>Updates MINOR + PATCH automatically</li>
+        <li>Will NOT go to 5.x</li>
+    </ul>
+
+    <h3>~ Tilde</h3>
+    <p><code>"express": "~4.18.2"</code></p>
+    <ul>
+        <li>Updates only PATCH version</li>
+        <li>Does NOT update MINOR</li>
+    </ul>
+
+    <h3>No Symbol (Exact version)</h3>
+    <p><code>"express": "4.18.2"</code></p>
+    <ul>
+        <li>Fully locked</li>
+        <li>No automatic updates</li>
+    </ul>
+
+    <h3>Range Examples</h3>
+    <ul>
+        <li><code>>=4.0.0 <5.0.0</code></li>
+        <li><code>4.18.x</code></li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>5. Security & Stability Risks</h2>
+    <ul>
+        <li>A wrong version string can break your entire project.</li>
+        <li>Never use <code>"latest"</code> — unstable & unpredictable.</li>
+        <li>Always check changelogs before updating versions.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>6. Best Practices</h2>
+    <ul>
+        <li>Use <b>^</b> for general development.</li>
+        <li>Use <b>~</b> for stable production apps.</li>
+        <li>Lock major versions.</li>
+        <li>Review changelog before updating MAJOR or MINOR.</li>
+    </ul>
+</div>
+
+</body>
+</html>

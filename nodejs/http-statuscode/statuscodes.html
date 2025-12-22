@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Status Codes Notes</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: #2c3e50; }
+        ul { margin-bottom: 20px; }
+        code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 3px; }
+        .example { background-color: #e8f0fe; padding: 10px; margin: 10px 0; border-left: 4px solid #4285f4; }
+    </style>
+</head>
+<body>
+    <h1>HTTP Status Codes - Notes</h1>
+
+    <h2>1. What are HTTP Status Codes?</h2>
+    <ul>
+        <li>Status codes are standard codes sent in HTTP responses to indicate the result of a request.</li>
+        <li>They help the client understand whether the request succeeded, failed, or needs further action.</li>
+        <li>Each response has a code that belongs to one of five categories.</li>
+    </ul>
+
+    <h2>2. Categories of Status Codes</h2>
+    <ul>
+        <li><strong>1xx (100–199): Informational</strong> – Request received, processing ongoing.</li>
+        <li><strong>2xx (200–299): Success</strong> – Request was successfully processed.</li>
+        <li><strong>3xx (300–399): Redirection</strong> – Client must take additional action to complete the request.</li>
+        <li><strong>4xx (400–499): Client Error</strong> – Error due to the client’s request (e.g., missing data, unauthorized).</li>
+        <li><strong>5xx (500–599): Server Error</strong> – Error due to server-side issues.</li>
+    </ul>
+
+    <h2>3. Common Success Codes</h2>
+    <div class="example">
+        <strong>200 OK</strong> – Standard success response. Used when a GET request succeeds.<br>
+        <strong>201 Created</strong> – Resource successfully created (POST request).<br>
+        <strong>202 Accepted</strong> – Request accepted but not yet processed.<br>
+        <strong>204 No Content</strong> – Request succeeded but no content to return.
+    </div>
+
+    <h2>4. Common Client Error Codes</h2>
+    <div class="example">
+        <strong>400 Bad Request</strong> – Invalid request or missing required fields.<br>
+        <strong>401 Unauthorized</strong> – Client not authenticated.<br>
+        <strong>403 Forbidden</strong> – Client authenticated but lacks permission.<br>
+        <strong>404 Not Found</strong> – Requested resource or URL does not exist.<br>
+        <strong>405 Method Not Allowed</strong> – HTTP method not supported for this endpoint.
+    </div>
+
+    <h2>5. Common Server Error Codes</h2>
+    <div class="example">
+        <strong>500 Internal Server Error</strong> – Generic server error.<br>
+        <strong>501 Not Implemented</strong> – Requested method not implemented.<br>
+        <strong>503 Service Unavailable</strong> – Server temporarily unavailable.
+    </div>
+
+    <h2>6. Practical Examples</h2>
+    <div class="example">
+        <strong>Example 1: Express & Postman GET Request</strong><br>
+        - Fetching users: returns <code>200 OK</code> if user exists.<br>
+        - Fetching non-existing user: returns <code>404 Not Found</code>.
+    </div>
+
+    <div class="example">
+        <strong>Example 2: Creating a New User</strong><br>
+        - POST request with complete data: returns <code>201 Created</code>.<br>
+        - POST request with missing fields: returns <code>400 Bad Request</code> and a message "All fields are required".
+    </div>
+
+    <div class="example">
+        <strong>Example 3: Authorization Errors</strong><br>
+        - Unauthenticated request: <code>401 Unauthorized</code>.<br>
+        - Authenticated but lacking permission: <code>403 Forbidden</code>.
+    </div>
+
+    <div class="example">
+        <strong>Example 4: Server Errors</strong><br>
+        - Logical or runtime error in server code: <code>500 Internal Server Error</code>.<br>
+        - Not implemented method: <code>501 Not Implemented</code>.<br>
+        - Temporary service unavailable: <code>503 Service Unavailable</code>.
+    </div>
+
+    <h2>7. Redirection (3xx)</h2>
+    <ul>
+        <li>Used when the client should take additional action, e.g., URL shorteners or redirecting after payment.</li>
+        <li>Example: 301 (Moved Permanently), 302 (Found / Temporary Redirect).</li>
+    </ul>
+
+    <h2>8. Node.js & Express Implementation Tips</h2>
+    <ul>
+        <li>Set status code using <code>res.status(code)</code> before sending JSON: <code>res.status(201).json(data)</code>.</li>
+        <li>Use <code>nodemon</code> to auto-restart server on file changes to avoid manual restarts during development.</li>
+        <li>Check all required fields in POST requests and respond with 400 if any field is missing.</li>
+    </ul>
+
+    <h2>9. Summary Table</h2>
+    <table border="1" cellpadding="5" cellspacing="0">
+        <tr>
+            <th>Code</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        <tr><td>200</td><td>OK</td><td>GET existing user</td></tr>
+        <tr><td>201</td><td>Created</td><td>POST new user</td></tr>
+        <tr><td>204</td><td>No Content</td><td>DELETE user</td></tr>
+        <tr><td>400</td><td>Bad Request</td><td>POST missing required fields</td></tr>
+        <tr><td>401</td><td>Unauthorized</td><td>Access without login</td></tr>
+        <tr><td>403</td><td>Forbidden</td><td>Access without permission</td></tr>
+        <tr><td>404</td><td>Not Found</td><td>GET non-existing user</td></tr>
+        <tr><td>500</td><td>Internal Server Error</td><td>Server logic error</td></tr>
+        <tr><td>501</td><td>Not Implemented</td><td>Unsupported method</td></tr>
+        <tr><td>503</td><td>Service Unavailable</td><td>Temporary downtime</td></tr>
+    </table>
+
+</body>
+</html>
