@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Add Product</title>
-<link rel="stylesheet" type="text/css" href="/css/addProducts.css">
+<link rel="stylesheet" type="text/css" href="/css/adminAddProducts.css">
 </head>
 
 <body>
@@ -16,14 +16,14 @@
     <div class="sidebar-section">
         <a href="#" class="collapsible">Manage Products</a>
         <div class="sidebar-buttons">
-            <a href="/admin/products/manage/add">Add Product</a>
-            <a href="/admin/products/manage/edit">Edit Product</a>
-            <a href="/admin/products/manage/delete">Delete Product</a>
+            <a href="/admin/products/add">Add Product</a>
+            <a href="/admin/products/edit">Edit Product</a>
+            <a href="/admin/products/delete">Delete Product</a>
         </div>
         <a href="#" class="collapsible">Manage Variants</a>
         <div class="sidebar-buttons">
-            <a href="/admin/products/manage/addvariant">Add Variant</a>
-            <a href="/admin/products/manage/deletevariant">Delete Variant</a>
+            <a href="/admin/products/addvariant">Add Variant</a>
+            <a href="/admin/products/deletevariant">Delete Variant</a>
         </div>
     </div>
 
@@ -47,7 +47,7 @@
 
     <div class="form-container">
         <!-- Product Form -->
-        <form id="productForm" action="/admin/products/manage/add" method="POST">
+        <form id="productForm" action="/admin/products/add" method="POST">
 
             <select name="brandId" required>
                 <option value="" disabled selected>Select Brand</option>
@@ -106,7 +106,7 @@
 
 </div>
 
-<script src="/js/addProducts.js"></script>
+<script src="/js/adminAddProducts.js"></script>
 
 </body>
 </html>

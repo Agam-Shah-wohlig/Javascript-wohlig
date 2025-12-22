@@ -74,14 +74,14 @@ const productSchema = new mongoose.Schema(
     // Category & Brand for filtering
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
+      ref: "category",
       required: true,
       index: true,
     },
 
     brand: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Brand",
+      ref: "brand",
       required: true,
       index: true,
     },

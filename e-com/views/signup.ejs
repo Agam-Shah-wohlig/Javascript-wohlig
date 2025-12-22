@@ -12,7 +12,7 @@
         <p style="color:red"><%= message %></p>
     <% } %>
 <div class="container">
-    <form id="signupForm" method="POST" action="/signup">
+    <form id="signupForm" method="POST" action="/auth/signup" autocomplete="off">
 
         <h2>Create Account</h2>
 
@@ -41,7 +41,7 @@
         <button type="submit" id="signupBtn">Sign Up</button>
 
         <div class="toggle">
-            Already have an account? <a href="/login">Login</a>
+            Already have an account? <a href="/auth/login">Login</a>
         </div>
 
     </form>

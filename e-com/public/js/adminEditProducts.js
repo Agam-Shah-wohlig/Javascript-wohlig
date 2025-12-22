@@ -100,7 +100,7 @@ productSelect.addEventListener('change', async () => {
     }
 
     try {
-        const res = await fetch(`/admin/products/manage/edit/${productId}`);
+        const res = await fetch(`/admin/products/edit/${productId}`);
         if (!res.ok) throw new Error('Product not found');
 
         const data = await res.json();
@@ -153,7 +153,7 @@ document.getElementById('editForm').addEventListener('submit', async e => {
 
     try {
         const productId = document.getElementById('productId').value;
-        const res = await fetch(`/admin/products/manage/edit/${productId}`, {
+        const res = await fetch(`/admin/products/edit/${productId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)

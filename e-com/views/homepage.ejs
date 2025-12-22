@@ -9,16 +9,16 @@
 </head>
 
 <body>
+
+    <!-- Navbar -->
     <%- include('partials/navbar') %>
 
-
-<!-- Navbar -->
 
 <!-- Brand Banners -->
 <div class="brand-banners">
     <% brands.forEach(brand => { %>
         <div class="brand-banner <%= brand.slug %>" 
-             onclick="window.location.href='/productdetails?brand=<%= brand._id %>'"
+             onclick="window.location.href='/products/filter?brand=<%= brand.name %>'"
              style="background-image: url('<%= brand.coverImage %>');">
             <div class="overlay">
                 <h2><%= brand.name %></h2>
@@ -33,10 +33,10 @@
     <div class="footer-content">
         <p>&copy; <%= new Date().getFullYear() %> ShopKart. All rights reserved.</p>
         <nav>
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-            <a href="/terms">Terms</a>
+            <a href="/homepage">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <a href="#">Terms</a>
         </nav>
     </div>
 </footer>

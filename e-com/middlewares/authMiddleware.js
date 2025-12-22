@@ -1,24 +1,25 @@
-const jwt = require("jsonwebtoken");
 
-const ACCESS_TOKEN_SECRET = "mytemporarysecret"; // SAME as jwt.js
+const User = require("../models/user");
+const {verifyToken} = require("../utils/jwt");
 
-function authenticate(req, res, next) {
-  // 1. Read token from cookie (browser-safe)
-  const token = req.headers.authorization;
+const authMiddleware = async (req, res, next) => {
 
-  console.log(token);
+    try {
+      const token = req.cookies?.jwt;
+      if (!token) {
+        req.user = null;
+        return next(); // allow public access
+      }
+        const decoded = verifyToken(token);
+        const user = await User.findById(decoded.id);
+        if (!user) return res.status(401).json({ message: "Unauthorized: User not found" });
 
-  if (!token) {
-    return res.status(401).send("Not authenticated");
+        req.user = user || null;
+        next();
+      } catch (err) {
+        req.user = null;
+        next();
   }
+};
 
-  try {
-    const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    return res.status(401).send("Invalid token");
-  }
-}
-
-module.exports = authenticate;
+module.exports = authMiddleware;

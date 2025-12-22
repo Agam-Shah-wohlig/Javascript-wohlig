@@ -16,7 +16,7 @@
     <% if (!cart || cart.items.length === 0) { %>
     <div class="empty-cart">
         <p>Your cart is currently empty.</p>
-        <a href="/productdetails" class="buy-btn">Continue Shopping</a>
+        <a href="/products" class="buy-btn">Continue Shopping</a>
     </div>
     <% } else { %>
         <table class="cart-table">
@@ -116,27 +116,12 @@
 </script>
 
 <script>
-document.getElementById("placeOrderBtn")?.addEventListener("click", async () => {
-    // For now, we use a TEMP shipping address and payment method
-    const formData = {
-        shippingAddressId: "6943f35f6bac0d897405322c", // replace with real address from user
-        paymentMethod: "cod" // can be dynamic later
-    };
-
-    const res = await fetch("/order/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+const placeOrderBtn = document.getElementById("placeOrderBtn");
+if (placeOrderBtn) {
+    placeOrderBtn.addEventListener("click", () => {
+        window.location.href = "/checkout";
     });
-
-    const data = await res.json();
-    if (res.ok) {
-        alert("Order placed successfully!");
-        window.location.href = "/order/view"; // redirect to order list
-    } else {
-        alert(data.error || "Failed to place order");
-    }
-});
+}
 </script>
 
 

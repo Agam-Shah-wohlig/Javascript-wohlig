@@ -1,20 +1,20 @@
-// utils/jwt.js
 const jwt = require("jsonwebtoken");
 
-function signAccessToken(user) {
-  return jwt.sign(
-    { sub: user._id, role: user.role },
-    "mytemporarysecret", // just a string for dev
-    { algorithm: "HS256", expiresIn: "15m", issuer: "your-api", audience: "your-client" }
-  );
+const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+const JWT_EXPIRES_IN = "1h"; // 1 hour expiry, can be changed
+
+// Generate JWT
+function generateToken(user) {
+    return jwt.sign(
+        { id: user._id, role: user.role },
+        JWT_SECRET,
+        { expiresIn: JWT_EXPIRES_IN }
+    );
 }
 
-function signRefreshToken(userId, sessionId) {
-  return jwt.sign(
-    { sub: userId, jti: sessionId },
-    "mytemporarysecret", // just a string for dev
-    { algorithm: "HS256", expiresIn: "7d" }
-  );
+// Verify JWT
+function verifyToken(token) {
+    return jwt.verify(token, JWT_SECRET);
 }
 
-module.exports = { signAccessToken, signRefreshToken };
+module.exports = { generateToken, verifyToken };

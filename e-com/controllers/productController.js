@@ -2,131 +2,181 @@ const Product = require("../models/product");
 const Brand = require("../models/brand");
 const Category = require("../models/category");
 
+// Display all products (unfiltered)
 async function HandleDisplayProducts(req, res) {
     try {
-        // Fetch products from DB
-        const products = await Product.find().lean();
+        const products = await Product.find()
+            .populate('category', 'categoryname')
+            .populate('brand', 'brandname')
+            .lean();
+
+        const formattedProducts = formatProducts(products);
         
-        // No need to strip variants — just send all variants
-        const formatted = products.map(p => {
-            const productImage = (p.images && p.images[0]) || "/images/default-product.png";
-            return {
-                _id: p._id,
-                title: p.title,
-                images: p.images[0]|| productImage,
-                description: p.description,
-                category: p.category,
-                brand: p.brand,
-                variants: p.variants.map(v => ({
-                    _id: v._id,
-                    price: v.discountPrice || v.price || 0,
-                    image: v.image || productImage,
-                    attributes: v.attributes
-                }))
-            };
+        res.render("products", { 
+            products: formattedProducts,
+            filters: req.query // Pass filters back to maintain state
         });
-        // Send to EJS
-        res.render("productDetails", { products: formatted });
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.error("Error loading products:", error);
         res.status(500).send("Error loading products");
     }
 }
 
-
+// Filter and sort products
 async function HandleFilterProducts(req, res) {
     try {
-        const { category, brand, color, size, price, sort } = req.query;
-        const filter = {};
+        const { category, brand, color, size, price, sort, search } = req.query;
+        
+        // Build base filter
+        const filter = await buildProductFilter(category, brand, search);
+        
+        // Fetch products with base filter
+        let products = await Product.find(filter)
+            .populate('category', 'categoryname')
+            .populate('brand', 'brandname')
+            .lean();
 
-        // --- Build filter object (same as before) ---
-        if (category) {
-            const categories = await Category.find({ categoryname: { $in: [].concat(category) } }).select("_id");
-            filter.category = { $in: categories.map(c => c._id) };
+        // Filter variants within products
+        products = filterProductVariants(products, { color, size, price });
+        
+        // Remove products with no matching variants
+        products = products.filter(p => p.variants.length > 0);
+
+        // Sort products
+        if (sort) {
+            products = sortProducts(products, sort);
         }
 
-        if (brand) {
-            const brands = await Brand.find({ brandname: { $in: [].concat(brand) } }).select("_id");
-            filter.brand = { $in: brands.map(b => b._id) };
-        }
+        const formattedProducts = formatProducts(products);
 
-        const variantFilters = [];
-        if (color) variantFilters.push({ "attributes.color": { $in: [].concat(color) } });
-        if (size) variantFilters.push({ "attributes.size": { $in: [].concat(size) } });
-
-        if (price) {
-            const priceRanges = [].concat(price).map(r => {
-                const [min, max] = r.split("-").map(Number);
-                return { min, max };
-            });
-            variantFilters.push({
-                $or: priceRanges.map(range => ({
-                    $or: [
-                        { discountPrice: { $gte: range.min, $lte: range.max } },
-                        { price: { $gte: range.min, $lte: range.max } }
-                    ]
-                }))
-            });
-        }
-
-        if (variantFilters.length > 0) {
-            filter.variants = { $elemMatch: { $and: variantFilters } };
-        }
-
-        // --- Fetch filtered products ---
-        let products = await Product.find(filter).lean();
-
-        // --- Filter variants inside each product ---
-        products = products.map(p => {
-            const productImage = (p.images && p.images[0]) || "/images/default-product.png";
-            const filteredVariants = p.variants.filter(v => {
-                if (color && ![].concat(color).includes(v.attributes.color)) return false;
-                if (size && ![].concat(size).includes(v.attributes.size)) return false;
-                if (price) {
-                    const variantPrice = v.discountPrice || v.price || 0;
-                    return [].concat(price).some(r => {
-                        const [min, max] = r.split("-").map(Number);
-                        return variantPrice >= min && variantPrice <= max;
-                    });
-                }
-                return true;
-            });
-
-            return {
-                _id: p._id,
-                title: p.title,
-                images: p.images[0] || productImage,
-                variants: filteredVariants.map(v => ({
-                    _id: v._id,
-                    price: v.discountPrice || v.price || 0,
-                    image: v.image || productImage,
-                    attributes: v.attributes
-                }))
-            };
+        res.render("products", { 
+            products: formattedProducts,
+            filters: req.query // Pass filters back to maintain checkbox state
         });
 
-        // --- Call the reusable sort function if sort option exists ---
-        const finalProducts = sortProducts(products, sort);
-
-        res.render("productDetails", { products: finalProducts });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Error filtering products" });
+    } catch (error) {
+        console.error("Error filtering products:", error);
+        res.status(500).send("Error filtering products");
     }
 }
 
+// ============= HELPER FUNCTIONS =============
 
-function sortProducts(products, sort) {
-    if (!sort) return products; // no sorting needed
+// Build MongoDB filter for products
+async function buildProductFilter(category, brand, search) {
+    const filter = {};
 
+    // Category filter
+    if (category) {
+        const categoryArray = Array.isArray(category) ? category : [category];
+        const categories = await Category.find({ 
+            categoryname: { $in: categoryArray } 
+        }).select("_id");
+        
+        if (categories.length > 0) {
+            filter.category = { $in: categories.map(c => c._id) };
+        }
+    }
+
+    // Brand filter
+    if (brand) {
+        const brandArray = Array.isArray(brand) ? brand : [brand];
+        const brands = await Brand.find({ 
+            brandname: { $in: brandArray } 
+        }).select("_id");
+        
+        if (brands.length > 0) {
+            filter.brand = { $in: brands.map(b => b._id) };
+        }
+    }
+
+    // Search filter
+    if (search) {
+        filter.title = { $regex: search, $options: 'i' };
+    }
+
+    return filter;
+}
+
+// Filter variants within products based on color, size, price
+function filterProductVariants(products, { color, size, price }) {
+    return products.map(product => {
+        let variants = [...product.variants];
+
+        // Filter by color
+        if (color) {
+            const colorArray = Array.isArray(color) ? color : [color];
+            variants = variants.filter(v => 
+                colorArray.includes(v.attributes?.color)
+            );
+        }
+
+        // Filter by size
+        if (size) {
+            const sizeArray = Array.isArray(size) ? size : [size];
+            variants = variants.filter(v => 
+                sizeArray.includes(v.attributes?.size)
+            );
+        }
+
+        // Filter by price range
+        if (price) {
+            const priceRanges = Array.isArray(price) ? price : [price];
+            variants = variants.filter(v => {
+                const variantPrice = v.discountPrice || v.price || 0;
+                return priceRanges.some(range => {
+                    const [min, max] = range.split("-").map(Number);
+                    return variantPrice >= min && variantPrice <= max;
+                });
+            });
+        }
+
+        return { ...product, variants };
+    });
+}
+
+// Sort products by price
+function sortProducts(products, sortOrder) {
     return products.sort((a, b) => {
-        const getPrice = (p) => {
-            const prices = p.variants?.map(v => v.discountPrice || v.price || 0) || [0];
-            return sort === "high" ? Math.max(...prices) : Math.min(...prices);
-        };
+        const priceA = getProductPrice(a);
+        const priceB = getProductPrice(b);
 
-        return sort === "high" ? getPrice(b) - getPrice(a) : getPrice(a) - getPrice(b);
+        return sortOrder === "high" 
+            ? priceB - priceA  // High to Low
+            : priceA - priceB; // Low to High
+    });
+}
+
+// Get representative price for a product (min or max of variants)
+function getProductPrice(product) {
+    if (!product.variants || product.variants.length === 0) return 0;
+    
+    const prices = product.variants.map(v => v.discountPrice || v.price || 0);
+    return Math.min(...prices); // Use minimum price as representative
+}
+
+// Format products for frontend
+function formatProducts(products) {
+    const DEFAULT_IMAGE = "/images/default-product.png";
+
+    return products.map(product => {
+        const productImage = (product.images && product.images[0]) || DEFAULT_IMAGE;
+
+        return {
+            _id: product._id,
+            title: product.title,
+            description: product.description,
+            category: product.category?.categoryname || 'Unknown',
+            brand: product.brand?.brandname || 'Unknown',
+            images: productImage,
+            variants: product.variants.map(variant => ({
+                _id: variant._id,
+                price: variant.discountPrice || variant.price || 0,
+                stock: variant.stock || 0,
+                image: variant.image || productImage,
+                attributes: variant.attributes || {}
+            }))
+        };
     });
 }
 

@@ -4,8 +4,7 @@ const Product = require("../models/product");
 async function HandleAddToCart(req, res) {
   try {
     const { productId, variantId, quantity } = req.body;
-    // const userId = req.user?._id || req.session.userId;
-    const userId = "64f123456789abcdef000001"; // temp user
+    const userId = req.user?._id;
 
     if (!productId || !variantId || quantity < 1) {
       return res.status(400).json({ error: "Invalid input" });
@@ -74,7 +73,7 @@ async function HandleAddToCart(req, res) {
 
 async function HandleViewCart(req, res) {
     try {
-        const userId = "64f123456789abcdef000001"; // TEMP: replace with real user
+        const userId = req.user?._id;
         const cart = await Cart.findOne({ user: userId }) || { items: [] };
 
         // Compute total using finalPrice
@@ -91,8 +90,7 @@ async function HandleViewCart(req, res) {
 async function HandleUpdateCartItem(req, res) {
   try {
     const { itemId, quantity } = req.body;
-    // const userId = req.user?._id || req.session.userId;
-    const userId = "64f123456789abcdef000001"; // temp user
+    const userId = req.user?._id;
 
     if (quantity < 1) {
       return res.status(400).json({ error: "Invalid quantity" });
@@ -134,8 +132,7 @@ async function HandleUpdateCartItem(req, res) {
 async function HandleDeleteCartItem(req, res) {
   try {
     const { itemId } = req.body;
-    // const userId = req.user?._id || req.session.userId;
-    const userId = "64f123456789abcdef000001"; // temp user
+    const userId = req.user?._id;
 
     const cart = await Cart.findOne({ user: userId });
     if (!cart) return res.status(404).json({ error: "Cart not found" });

@@ -2,7 +2,7 @@
 
 // Full name validator (First + Last name)
 export function validateUsername(name) {
-    const regex = /^[A-Za-z]+ [A-Za-z]+$/;
+    const regex = /^[A-Za-z]+$/;
     return regex.test(name);
 }
 

@@ -20,7 +20,7 @@ async function HandleRenderAddProductPage(req, res) {
         const sizes = ["S", "M", "L", "XL", "XXL"];
 
         
-        res.render("addProducts", { brands, categories, colors, sizes, productId });
+        res.render("adminAddProducts", { brands, categories, colors, sizes, productId });
 
     } catch (err) {
         console.error(err);
@@ -93,7 +93,7 @@ async function HandleAdminAddProducts(req, res) {
         });
 
         // Redirect with product ID
-        return res.redirect(`/admin/products/manage/add?productId=${newProduct._id}`);
+        return res.redirect(`/admin/products/add?productId=${newProduct._id}`);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Server Error" });
@@ -112,7 +112,7 @@ async function HandleRenderAddVariant(req, res) {
         const colors = ["Red", "Blue", "Black", "White", "Grey", "Green", "Navy"];
         const sizes = ["S", "M", "L", "XL", "XXL"];
 
-        return res.render("addVariants", { products, productId, variantId, colors, sizes});
+        return res.render("adminAddVariants", { products, productId, variantId, colors, sizes});
 
     } catch (err) {
         console.error(err);
@@ -174,7 +174,7 @@ async function handleAddVariant(req, res) {
 
     // Redirect with both variantAdded flag and variantId
     res.redirect(
-      `/admin/products/manage/addvariant?variantAdded=true&productId=${productId}&variantId=${addedVariant._id}`
+      `/admin/products/addvariant?variantAdded=true&productId=${productId}&variantId=${addedVariant._id}`
     );
   } catch (err) {
     console.error(err);
@@ -190,7 +190,7 @@ async function HandleRenderDeleteVariantPage(req, res) {
       { title: 1, variants: 1 }
     ).lean();
 
-    return res.render("deleteVariants", { products });
+    return res.render("adminDeleteVariants", { products });
   } catch (err) {
     console.error(err);
     return res.status(500).send("Server Not Responding");
@@ -241,7 +241,7 @@ async function HandleAdminDeleteVariant(req, res) {
 async function HandleAdminGetAllProducts(req, res) {
     try {
         const products = await Product.find();
-        return res.render("editProducts", { products });
+        return res.render("adminEditProducts", { products });
     } catch (err) {
         console.error(err);
         return res.status(500).send("Server Not Responding");
@@ -275,7 +275,7 @@ async function HandleAdminGetSingleProduct(req, res) {
 }
 
 
-// PUT /admin/products/manage/edit/:id
+// PUT /admin/products/edit/:id
 async function HandleAdminUpdateProduct(req, res) {
     try {
         const { id } = req.params;
@@ -334,7 +334,7 @@ async function HandleRenderDeletePage(req, res) {
     try {
         const products = await Product.find({}, { title: 1 });
         // console.log(products);
-        return res.render("deleteProducts", { products });
+        return res.render("adminDeleteProducts", { products });
     } catch (err) {
         console.error(err);
         return res.status(500).send("Server Not Responding");

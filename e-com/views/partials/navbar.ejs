@@ -2,9 +2,33 @@
 <div class="navbar">
     <h2>SHOPKART</h2>
     <nav>
-        <a href="/user/homepage">HOME</a>
-        <a href="/productdetails">PRODUCTS</a>
+        <a href="/homepage">HOME</a>
+        <a href="/products">PRODUCTS</a>
         <a href="/cart/view">CART</a>
         
+        <!-- User Dropdown -->
+        <div class="user-dropdown">
+            <a href="#" class="user-trigger">
+                <% if (user) { %>
+                    <%= user.username %>
+                <% } else { %>
+                    Guest
+                <% } %>
+            </a>
+            
+            <!-- Dropdown Menu -->
+            <div class="dropdown-menu">
+                <% if (user) { %>
+                    <!-- Logged In User Menu -->
+                    <a href="/user/profile">Profile</a>
+                    <a href="/order/view">Orders</a>
+                    <a href="/auth/logout">Logout</a>
+                <% } else { %>
+                    <!-- Guest Menu -->
+                    <a href="/auth/login">Login</a>
+                    <a href="/order/view">Orders</a>
+                <% } %>
+            </div>
+        </div>
     </nav>
 </div>

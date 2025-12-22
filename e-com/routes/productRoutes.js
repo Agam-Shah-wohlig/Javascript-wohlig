@@ -3,10 +3,10 @@ const router = express.Router();
 
 const {HandleDisplayProducts, HandleFilterProducts} = require("../controllers/productController");
 
-router.route("/productdetails")
-.get(HandleDisplayProducts)
+router.route("/")
+.get(HandleDisplayProducts);
 
-router.route("/productdetails/filter")
+router.route("/filter")
 .get(HandleFilterProducts);
 
 module.exports = router;

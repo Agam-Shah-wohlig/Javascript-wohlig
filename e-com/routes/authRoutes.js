@@ -1,23 +1,17 @@
 // routes/authRouter.js
 const express = require("express");
 const router = express.Router();
-const {
-  HandleDisplayLogin,
-  HandleDisplaySignup,
-  HandleJwtLogin,
-  HandleSignup,
-  refresh
-} = require("../controllers/authController");
+const { HandleSignup, HandleLogin, HandleDisplayLogin, HandleDisplaySignup, HandleLogout } = require("../controllers/authController");
 
-// Login routes
-router.get("/login", HandleDisplayLogin);
-router.post("/login", HandleJwtLogin);
+router.route("/signup")
+.get(HandleDisplaySignup)
+.post(HandleSignup);
 
-// Signup routes
-router.get("/signup", HandleDisplaySignup);
-router.post("/signup", HandleSignup);
+router.route("/login")
+.get(HandleDisplayLogin)
+.post(HandleLogin);
 
-// Refresh token route
-router.post("/refresh", refresh); // POST is standard for refresh
+router.route("/logout")
+.get(HandleLogout);
 
 module.exports = router;

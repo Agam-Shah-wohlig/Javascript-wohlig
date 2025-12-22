@@ -12,7 +12,7 @@
         <p style="color:red"><%= message %></p>
     <% } %>
 <div class="container">
-    <form id="loginForm" method="POST" action="/login">
+    <form id="loginForm" method="POST" action="/auth/login" autocomplete="off">
 
         <h2>Login</h2>
 
@@ -30,7 +30,7 @@
         <button type="submit" id="loginBtn">Login</button>
 
         <div class="toggle">
-            Don't have an account? <a href="/signup">Sign Up</a>
+            Don't have an account? <a href="/auth/signup">Sign Up</a>
         </div>
 
     </form>

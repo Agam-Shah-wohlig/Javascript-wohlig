@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard</title>
-<link rel="stylesheet" type="text/css" href="/css/adminDashboard.css">
+<link rel="stylesheet" type="text/css" href="/css/adminPanel.css">
 </head>
 
 <body>
@@ -16,14 +16,14 @@
     <div class="sidebar-section">
         <a href="#" class="collapsible">Manage Products</a>
         <div class="sidebar-buttons">
-            <a href="/admin/products/manage/add">Add Product</a>
-            <a href="/admin/products/manage/edit">Edit Product</a>
-            <a href="/admin/products/manage/delete">Delete Product</a>
+            <a href="/admin/products/add">Add Product</a>
+            <a href="/admin/products/edit">Edit Product</a>
+            <a href="/admin/products/delete">Delete Product</a>
         </div>
         <a href="#" class="collapsible">Manage Variants</a>
         <div class="sidebar-buttons">
-            <a href="/admin/products/manage/addvariant">Add Variant</a>
-            <a href="/admin/products/manage/deletevariant">Delete Variant</a>
+            <a href="/admin/products/addvariant">Add Variant</a>
+            <a href="/admin/products/deletevariant">Delete Variant</a>
         </div>
     </div>
 
@@ -40,9 +40,9 @@
     </div>
 
     <div class="content-buttons">
-        <button onclick="location.href='/admin/products/manage/add'">Add Product</button>
-        <button onclick="location.href='/admin/products/manage/edit'">Edit Product</button>
-        <button onclick="location.href='/admin/products/manage/delete'">Delete Product</button>
+        <button onclick="location.href='/admin/products/add'">Add Product</button>
+        <button onclick="location.href='/admin/products/edit'">Edit Product</button>
+        <button onclick="location.href='/admin/products/delete'">Delete Product</button>
     </div>
 
     <h3>Products List</h3>

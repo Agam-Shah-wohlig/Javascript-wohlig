@@ -42,7 +42,7 @@ productSelect.addEventListener('change', async () => {
   if (!productId) return;
 
   try {
-    const res = await fetch(`/admin/products/manage/edit/${productId}`);
+    const res = await fetch(`/admin/products/edit/${productId}`);
     if (!res.ok) throw new Error('Product not found');
 
     const data = await res.json();
@@ -75,7 +75,7 @@ document.getElementById('deleteVariantForm').addEventListener('submit', async e 
 
   try {
     const res = await fetch(
-      `/admin/products/manage/deletevariant/${variantIdInput.value}`,
+      `/admin/products/deletevariant/${variantIdInput.value}`,
       { method: 'DELETE' }
     );
 

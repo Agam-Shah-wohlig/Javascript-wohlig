@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - SHOPKART</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/checkout.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <div class="checkout-container">
+        <h1>Checkout</h1>
+
+        <div class="checkout-content">
+            
+            <!-- Left: Order Summary -->
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+                
+                <div class="cart-items">
+                    <% if (cartItems && cartItems.length > 0) { %>
+                        <% cartItems.forEach(item => { %>
+                            <div class="cart-item">
+                                <img src="<%= item.image %>" alt="<%= item.title %>">
+                                <div class="item-details">
+                                    <h4><%= item.title %></h4>
+                                    <% if (item.variant) { %>
+                                        <p class="variant-info">
+                                            <% for (let key in item.variant) { %>
+                                                <%= key %>: <%= item.variant[key] %>
+                                            <% } %>
+                                        </p>
+                                    <% } %>
+                                    <p>Quantity: <%= item.quantity %></p>
+                                </div>
+                                <div class="item-price">
+                                    ₹<%= item.price * item.quantity %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <p class="empty-cart">Your cart is empty</p>
+                    <% } %>
+                </div>
+
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span>Subtotal</span>
+                        <span>₹<%= subtotal || 0 %></span>
+                    </div>
+                    <div class="price-row">
+                        <span>Shipping</span>
+                        <span>₹<%= shipping || 0 %></span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total</span>
+                        <strong>₹<%= total || 0 %></strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Checkout Form -->
+            <div class="checkout-form-section">
+                <form id="checkoutForm" action="/order/create" method="POST">
+  
+  <!-- Shipping Address Selection -->
+  <div class="form-section">
+      <h3>Shipping Address</h3>
+      
+      <% if (addresses && addresses.length > 0) { %>
+          <div class="address-selection">
+              <% addresses.forEach((addr, index) => { %>
+                  <label class="address-option <%= index === 0 ? 'selected' : '' %>">
+                      <input 
+                          type="radio" 
+                          name="shippingAddress" 
+                          value="<%= addr._id %>" 
+                          <%= index === 0 ? 'checked' : '' %>
+                          required
+                      >
+                      <div class="address-card-mini">
+                          <div class="address-label-mini">
+                              <%= addr.label %>
+                              <% if (index === 0) { %>
+                                  <span class="primary-badge">PRIMARY</span>
+                              <% } %>
+                          </div>
+                          <p><strong><%= addr.fullName %></strong></p>
+                          <p><%= addr.phone %></p>
+                          <p><%= addr.street %></p>
+                          <p><%= addr.city %>, <%= addr.state %> - <%= addr.postalCode %></p>
+                      </div>
+                  </label>
+              <% }); %>
+          </div>
+          <a href="/user/profile?next=/checkout" class="add-new-address">+ Add New Address</a>
+      <% } else { %>
+          <div class="no-address">
+              <p>No addresses found. Please add a shipping address.</p>
+              <a href="/user/profile" class="btn-primary">Add Address</a>
+          </div>
+      <% } %>
+  </div>
+
+  <!-- Payment Method Selection -->
+  <div class="form-section">
+      <h3>Payment Method</h3>
+      
+      <div class="payment-methods">
+          <% paymentMethods.forEach((pm, index) => { %>
+              <label class="payment-option <%= index === 0 ? 'selected' : '' %>">
+                  <input type="radio" name="paymentMethod" value="<%= pm.value %>" <%= index === 0 ? 'checked' : '' %> required>
+                  <div class="payment-card">
+                      <strong><%= pm.label %></strong>
+                  </div>
+              </label>
+          <% }) %>
+      </div>
+  </div>
+
+  <!-- Place Order Button -->
+  <button type="submit" class="btn-place-order">
+      Place Order - ₹<%= total || 0 %>
+  </button>
+</form>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Add selected state to address options
+        document.querySelectorAll('.address-option input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.address-option').forEach(opt => opt.classList.remove('selected'));
+                this.closest('.address-option').classList.add('selected');
+            });
+        });
+
+        // Add selected state to payment options
+        document.querySelectorAll('.payment-option input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+                this.closest('.payment-option').classList.add('selected');
+            });
+        });
+
+    //     // Handle form submission
+    //     document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+    //     e.preventDefault();
+
+    //     const shippingAddress = document.querySelector('input[name="shippingAddress"]:checked')?.value;
+    //     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+    //     if (!shippingAddress) {
+    //         alert("Please select a shipping address");
+    //         return;
+    //     }
+
+    //     if (!paymentMethod) {
+    //         alert("Please select a payment method");
+    //         return;
+    //     }
+
+
+    //     const form = e.target;
+    //     const placeOrderBtn = document.getElementById('placeOrderBtn');
+    //     placeOrderBtn.disabled = true;
+    //     placeOrderBtn.textContent = 'Processing...';
+
+    //     try {
+    //         const response = await fetch('/order/create', {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             credentials: 'include', // send JWT cookie
+    //             body: JSON.stringify({ shippingAddress, paymentMethod })
+    //         });
+
+    //         let data;
+    //         try {
+    //             data = await response.json();
+    //         } catch {
+    //             throw new Error('Server returned non-JSON. Likely session expired.');
+    //         }
+            
+    //         if (data.success) {
+    //             // Order created, redirect to orders page
+    //             window.location.href = '/order/view';
+    //         } else {
+    //             alert(data.error || 'Failed to place order');
+    //             placeOrderBtn.disabled = false;
+    //             placeOrderBtn.textContent = `Place Order - ₹<%= total || 0 %>`;
+    //         }
+    //     } catch (err) {
+    //         console.error('Error placing order:', err);
+    //         alert('Something went wrong. Please login again.');
+    //         window.location.href = '/auth/login';
+    //     }
+    // });
+    </script>
+</body>
+</html>

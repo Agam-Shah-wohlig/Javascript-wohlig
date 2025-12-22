@@ -13,13 +13,13 @@ const {HandleRenderAddProductPage,
     HandleAdminGetSingleProduct,
     HandleAdminUpdateProduct, 
     HandleRenderDeletePage,
-    HandleAdminDeleteProducts} = require("../controllers/manageProductsController");
+    HandleAdminDeleteProducts} = require("../controllers/adminProductsController");
 
 // Display the HomePage to Guest user
 router.route("/dashboard")
 .get(HandleDisplayAdminDashboard)
 
-router.route("/add")
+router.route("/addproduct")
 .get(HandleRenderAddProductPage)
 .post(HandleAdminAddProducts);
 
@@ -35,17 +35,17 @@ router.route('/deletevariant')
 router.route('/deletevariant/:id')
 .delete(HandleAdminDeleteVariant);
 
-router.route("/edit")
+router.route("/editproduct")
 .get(HandleAdminGetAllProducts);
 
-router.route("/edit/:id")
+router.route("/editproduct/:id")
 .get(HandleAdminGetSingleProduct)
 .put(HandleAdminUpdateProduct);
 
-router.route("/delete")
+router.route("/deleteproduct")
 .get(HandleRenderDeletePage);
 
-router.route("/delete/:id")
+router.route("/deleteproduct/:id")
 .delete(HandleAdminDeleteProducts);
 
 module.exports = router;

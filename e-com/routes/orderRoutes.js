@@ -1,26 +1,29 @@
 const express = require("express");
 const router = express.Router();
 
-const {HandleCreateOrder, 
+const {
+    HandleCreateOrder, 
     HandleUpdateOrderStatus,
-HandleViewOrderDetails,
-HandleViewOrders,
-HandleCancelOrder} = require("../controllers/orderController");
+    HandleViewOrderDetails,
+    HandleViewOrders,
+    HandleCancelOrder} = require("../controllers/orderController");
+
+const requireAuth = require("../middlewares/requireAuthMiddleware");
 
 router.route("/create")
-.post(HandleCreateOrder);
+.post(requireAuth, HandleCreateOrder);
 
 router.route("/view")
-.get(HandleViewOrders);
+.get(requireAuth, HandleViewOrders);
 
 router.route("/details/:orderId")
-.get(HandleViewOrderDetails);
+.get(requireAuth, HandleViewOrderDetails);
 
 router.route("/status/:orderId")
 .post(HandleUpdateOrderStatus);
 
 router.route("/cancel/:orderId")
-.post(HandleCancelOrder);
+.post(requireAuth, HandleCancelOrder);
 
 
 module.exports = router;
