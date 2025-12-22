@@ -299,12 +299,18 @@
                         body: JSON.stringify({ productId, variantId, quantity })
                     });
 
+                    if (response.status === 401) {
+                    // Not logged in → redirect
+                    alert('Failed to add to cart! Login Required!')
+                    window.location.href = "/auth/login";
+                    return;
+                    }
                     const data = await response.json();
                     
                     if (response.ok) {
                         alert('Added to cart successfully!');
                     } else {
-                        alert(data.error || 'Failed to add to cart');
+                        alert(data.error || 'Failed to add to cart! Login Required!');
                     }
                 } catch (error) {
                     console.error('Error:', error);

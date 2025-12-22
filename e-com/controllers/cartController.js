@@ -74,6 +74,9 @@ async function HandleAddToCart(req, res) {
 async function HandleViewCart(req, res) {
     try {
         const userId = req.user?._id;
+        if (!userId) {
+          return res.redirect("/auth/login") ;
+        }
         const cart = await Cart.findOne({ user: userId }) || { items: [] };
 
         // Compute total using finalPrice

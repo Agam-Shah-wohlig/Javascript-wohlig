@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const {HandleAddToCart, HandleViewCart, HandleUpdateCartItem, HandleDeleteCartItem} = require("../controllers/cartController");
-
+const requireAuth = require("../middlewares/requireAuthMiddleware");
 router.route("/add")
-.post(HandleAddToCart);
+.post(requireAuth,HandleAddToCart);
 
 router.route("/view")
 .get(HandleViewCart);

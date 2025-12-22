@@ -1,8 +1,9 @@
-
-
- const requireAuth = (req, res, next) => {
+const requireAuth = (req, res, next) => {
   if (!req.user) {
-    return res.redirect("/auth/login");
+    return res.status(401).json({
+      success: false,
+      message: "Login required"
+    });
   }
   next();
 };

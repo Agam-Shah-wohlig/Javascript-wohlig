@@ -14,7 +14,7 @@ router.route("/create")
 .post(requireAuth, HandleCreateOrder);
 
 router.route("/view")
-.get(requireAuth, HandleViewOrders);
+.get(HandleViewOrders);
 
 router.route("/details/:orderId")
 .get(requireAuth, HandleViewOrderDetails);

@@ -101,7 +101,10 @@ async function HandleCreateOrder(req, res) {
 // ----------------------
 async function HandleViewOrders(req, res) {
     try {
-        const userId = req.user?._id
+        const userId = req.user?._id;
+        if (!userId) {
+          return res.redirect("/auth/login") ;
+        }
 
         const orders = await Order.find({ user: userId })
             .sort({ createdAt: -1 })
@@ -120,8 +123,11 @@ async function HandleViewOrders(req, res) {
 async function HandleViewOrderDetails(req, res) {
     try {
         const { orderId } = req.params;
-        // const userId = "64f123456789abcdef000001"; // TEMP
+
         const userId = req.user?._id
+        if (!userId) {
+          return res.redirect("/auth/login") ;
+        }
 
         const order = await Order.findOne({ _id: orderId, user: userId })
             .populate("shippingAddress");
